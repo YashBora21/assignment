@@ -1,0 +1,550 @@
+"""
+table_extraction.py — Dedicated table extraction pipeline.
+
+Extracts tables separately to preserve their structure and feed
+them to the pipeline as structured data rather than text chunks.
+
+Uses pdfplumber, applying line-based and text-based extraction
+strategies to handle both bordered and borderless tables.
+"""
+
+from __future__ import annotations
+
+import logging
+import re
+from pathlib import Path
+from typing import Any, Dict, List, Optional
+
+import pdfplumber
+
+from tender_extraction.vision import (
+    extract_tables_from_image_file,
+    extract_tables_from_pdf_page,
+    should_try_multimodal_table_fallback,
+)
+
+logger = logging.getLogger(__name__)
+
+# These patterns are used to figure out which column in a tender table
+# maps to which spec field. Built from analysing headers in 30+ real
+# tenders. The regex approach is more robust than exact matching because
+# government tenders use wildly inconsistent header names
+# ("Item", "Items", "Item Description", "Description of Item", etc.)
+
+_ITEM_PATTERNS = re.compile(
+    r"(item|description|name|particular|component|material|s\.?\s*no|sr\.?\s*no|क्र\.?\s*सं|विवरण|सामग्री)",
+    re.IGNORECASE,
+)
+_SPEC_PATTERNS = re.compile(
+    r"(specif|requirement|standard|detail|param|characteristic|तकनीकी|विनिर्देश|आवश्यकता|मानक)",
+    re.IGNORECASE,
+)
+_UNIT_PATTERNS = re.compile(r"(unit|uom|measure|इकाई)", re.IGNORECASE)
+_VALUE_PATTERNS = re.compile(
+    r"(value|quantity|qty|amount|number|numeric|vol|rate|मात्रा|संख्या|दर)", re.IGNORECASE
+)
+_TOLERANCE_PATTERNS = re.compile(r"(tolerance|variation|range|limit|सहनशीलता|सीमा)", re.IGNORECASE)
+_STANDARD_PATTERNS = re.compile(
+    r"(standard|code|reference|is[\s:]|astm|iso|bis|मानक|कोड|संदर्भ)", re.IGNORECASE
+)
+_MATERIAL_PATTERNS = re.compile(r"(material|grade|type|class|सामग्री|ग्रेड|प्रकार)", re.IGNORECASE)
+
+
+def extract_tables(
+    pdf_path: str,
+    pages: Optional[List[Dict[str, Any]]] = None,
+    preserve_geometry: bool = False,
+) -> List[Dict[str, Any]]:
+    """
+    Extract all tables from a PDF, preserving their structure.
+
+    Returns a list of table dicts, each with:
+        table_id, page, headers, rows, bbox, raw
+
+    We use two extraction strategies and pick whichever finds more tables.
+    Strategy 1 (lines) works great for bordered tables (the majority).
+    Strategy 2 (text) catches borderless tables that show up in some
+    modern tender formats, especially from private companies.
+    """
+    tables_out: List[Dict[str, Any]] = []
+    table_counter = 0
+
+    try:
+        page_hints = {page["page"]: page for page in (pages or [])}
+        with pdfplumber.open(pdf_path) as pdf:
+            for page_idx, page in enumerate(pdf.pages, start=1):
+                if preserve_geometry:
+                    logger.info("Extracting catalogue tables: %s page %d/%d", Path(pdf_path).name, page_idx, len(pdf.pages))
+                # Strategy 1: Line-based detection (best for bordered tables).
+                # These settings were tuned on the MTF and PBMC tenders.
+                # snap_tolerance=5 handles slightly misaligned grid lines
+                # which happen a lot in scanned PDFs.
+                line_settings = {
+                    "vertical_strategy": "lines",
+                    "horizontal_strategy": "lines",
+                    "snap_tolerance": 5,
+                    "join_tolerance": 5,
+                    "edge_min_length": 10,
+                    "text_tolerance": 3,
+                    "intersection_tolerance": 5,
+                }
+
+                text_settings = {
+                    "vertical_strategy": "text", "horizontal_strategy": "text",
+                    "snap_tolerance": 5, "min_words_vertical": 2, "min_words_horizontal": 2,
+                }
+                geometries = {}
+                if preserve_geometry:
+                    detected = page.find_tables(line_settings) + page.find_tables(text_settings)
+                    tables_via_lines = []
+                    for detected_table in detected:
+                        raw = detected_table.extract()
+                        tables_via_lines.append(raw)
+                        geometries[_table_signature(raw[0] or [], raw[1:])] = detected_table
+                else:
+                    tables_via_lines = page.extract_tables(line_settings) or []
+
+                # Strategy 2: Text-based detection for borderless/aligned tables.
+                tables_via_text = []
+                try:
+                    if not preserve_geometry:
+                        tables_via_text = page.extract_tables(text_settings) or []
+                except Exception:
+                    pass
+
+                raw_tables = _deduplicate_raw_tables(tables_via_lines + tables_via_text)
+
+                for raw_table in raw_tables:
+                    # Skip tables with only 1 row (just a header, no data)
+                    # or completely empty tables
+                    if not raw_table or len(raw_table) < 2:
+                        continue
+
+                    table_counter += 1
+                    table_id = f"table_{table_counter:03d}"
+
+                    cleaned = _clean_table(raw_table)
+                    headers = cleaned[0]
+                    rows = cleaned[1:]
+
+                    # Skip tables where all rows are empty after cleaning
+                    non_empty_rows = [r for r in rows if any(c.strip() for c in r)]
+                    if not non_empty_rows:
+                        continue
+
+                    geometry = geometries.get(_table_signature(raw_table[0], raw_table[1:]))
+                    bbox = list(geometry.bbox) if geometry is not None else (None if preserve_geometry else _get_table_bbox(page))
+
+                    tables_out.append({
+                        "table_id": table_id,
+                        "page": page_idx,
+                        "headers": headers,
+                        "rows": non_empty_rows,
+                        "bbox": bbox,
+                        "raw": raw_table,
+                    })
+                    if geometry is not None:
+                        tables_out[-1]["bbox"] = list(geometry.bbox)
+                        tables_out[-1]["cells"] = [list(row.cells) for row in geometry.rows]
+
+                if should_try_multimodal_table_fallback(
+                    page_number=page_idx,
+                    conventional_tables_count=len(raw_tables),
+                    page_hint=page_hints.get(page_idx),
+                ):
+                    mm_tables = extract_tables_from_pdf_page(pdf_path, page_idx)
+                    for mm_table in mm_tables:
+                        if _table_signature(mm_table["headers"], mm_table["rows"]) in {
+                            _table_signature(item["headers"], item["rows"])
+                            for item in tables_out
+                            if item["page"] == page_idx
+                        }:
+                            continue
+                        tables_out.append(mm_table)
+
+                if preserve_geometry:
+                    page.close()
+
+        logger.info(
+            "Extracted %d tables from %s across %d pages",
+            len(tables_out), pdf_path, len(set(t["page"] for t in tables_out))
+        )
+
+    except Exception as exc:
+        # pdfplumber can fail on encrypted/corrupt PDFs.
+        # We log and return empty rather than crashing the whole pipeline.
+        logger.error("Table extraction failed for %s: %s", pdf_path, exc)
+
+    return tables_out
+
+
+def extract_docx_tables(docx_path: str) -> List[Dict[str, Any]]:
+    from docx import Document
+
+    document = Document(docx_path)
+    tables_out: List[Dict[str, Any]] = []
+    for table_idx, table in enumerate(document.tables, start=1):
+        cleaned_rows = [
+            [" ".join((cell.text or "").split()) for cell in row.cells]
+            for row in table.rows
+        ]
+        cleaned_rows = [row for row in cleaned_rows if any(cell.strip() for cell in row)]
+        if len(cleaned_rows) < 2:
+            continue
+        tables_out.append(
+            {
+                "table_id": f"docx_table_{table_idx:03d}",
+                "page": 1,
+                "headers": cleaned_rows[0],
+                "rows": cleaned_rows[1:],
+                "bbox": None,
+                "raw": cleaned_rows,
+            }
+        )
+    return tables_out
+
+
+def extract_image_tables(image_path: str) -> List[Dict[str, Any]]:
+    return extract_tables_from_image_file(image_path)
+
+
+def _deduplicate_raw_tables(raw_tables: List[List[List[Optional[str]]]]) -> List[List[List[Optional[str]]]]:
+    seen = set()
+    deduped = []
+    for raw_table in raw_tables:
+        cleaned = _clean_table(raw_table)
+        signature = _table_signature(cleaned[0] if cleaned else [], cleaned[1:] if len(cleaned) > 1 else [])
+        if signature in seen:
+            continue
+        seen.add(signature)
+        deduped.append(raw_table)
+    return deduped
+
+
+def _table_signature(headers: List[str], rows: List[List[str]]) -> str:
+    normalized_rows = rows[:8]
+    return repr(
+        (
+            tuple(_clean_spec_text(header) for header in headers),
+            tuple(tuple(_clean_spec_text(cell) for cell in row) for row in normalized_rows),
+        )
+    )
+
+
+def _looks_like_serial_label(text: str) -> bool:
+    cleaned = re.sub(r"[\s().-]+", "", (text or "").strip())
+    return bool(cleaned) and cleaned.isdigit()
+
+
+def _clean_spec_text(text: str) -> str:
+    text = re.sub(r"^[\s\u2022\uf0b7\-•]+", "", text or "").strip()
+    text = re.sub(r"^([A-Za-z])\s+([A-Za-z]{2,})", r"\1\2", text)
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def _derive_component_and_spec(item_name: str, spec_text: str) -> tuple[str, str]:
+    item_name = _clean_spec_text(item_name)
+    spec_text = _clean_spec_text(spec_text)
+
+    if _looks_like_serial_label(item_name) and ":" in spec_text:
+        lhs, rhs = spec_text.split(":", 1)
+        lhs = _clean_spec_text(lhs)
+        rhs = _clean_spec_text(rhs)
+        if lhs and any(c.isalpha() for c in lhs):
+            return lhs[:80], rhs or spec_text
+
+    if _looks_like_serial_label(item_name) and spec_text:
+        snippet = spec_text.split(".", 1)[0]
+        snippet = snippet.split(";", 1)[0]
+        snippet = snippet.split(":", 1)[0]
+        snippet = _clean_spec_text(snippet)
+        if len(snippet) >= 6 and any(c.isalpha() for c in snippet):
+            return snippet[:80], spec_text
+
+    return item_name or "NOT_FOUND", spec_text or "NOT_FOUND"
+
+
+def _looks_like_technical_table(headers: List[str], rows: List[List[str]]) -> bool:
+    header_text = " ".join(headers).lower()
+    if any(
+        keyword in header_text
+        for keyword in (
+            "specification",
+            "technical",
+            "parameter",
+            "requirement",
+            "material",
+            "grade",
+            "tolerance",
+            "standard",
+            "विनिर्देश",
+            "तकनीकी",
+            "सामग्री",
+            "मानक",
+        )
+    ):
+        return True
+
+    value_like_rows = 0
+    for row in rows[:10]:
+        populated = [cell for cell in row if cell.strip()]
+        if len(populated) < 2:
+            continue
+        numeric_cells = sum(bool(re.search(r"\d", cell)) for cell in populated)
+        alpha_cells = sum(any(char.isalpha() for char in cell) for cell in populated)
+        if numeric_cells >= 1 and alpha_cells >= 2:
+            value_like_rows += 1
+    return value_like_rows >= 2
+
+def parse_table_to_specs(table: Dict[str, Any]) -> List[Dict[str, Any]]:
+    """
+    Convert a structured table into a list of specification dicts.
+
+    This attempts to intelligently map table columns to spec fields using
+    header pattern matching. When headers don't match any known pattern
+    (happens with some Hindi/bilingual tenders), it falls back to using
+    the first column as item_name and concatenating the rest as
+    specification_text. Not perfect, but better than losing the data.
+    """
+    headers = table.get("headers", [])
+    rows = table.get("rows", [])
+    table_id = table.get("table_id", "unknown")
+    page = table.get("page", 0)
+
+    if not headers or not rows:
+        return []
+
+    if not _looks_like_technical_table(headers, rows):
+        return []
+
+    col_map = _map_columns(headers)
+
+    # Precision-first guardrails: skip tables that don't expose enough
+    # structured columns to represent technical specs.
+    # This avoids extracting legal/admin prose rows as fake specs.
+    has_item_col = "item_name" in col_map
+    has_spec_signal_col = any(
+        k in col_map
+        for k in ("specification_text", "numeric_value", "tolerance", "standard_reference", "material")
+    )
+    if not has_item_col or not has_spec_signal_col:
+        logger.info(
+            "Skipping %s (page %d): weak column mapping (%d cols mapped: %s)",
+            table_id, page, len(col_map), list(col_map.keys())
+        )
+        return []
+
+    specs: List[Dict[str, Any]] = []
+    skipped: List[str] = []
+    
+    for row_idx, row in enumerate(rows):
+        non_empty = [c for c in row if c.strip()]
+        if len(non_empty) < 2:
+            continue
+
+        spec: Dict[str, Any] = {
+            "item_name": _get_cell(row, col_map.get("item_name")),
+            "specification_text": _get_cell(row, col_map.get("specification_text")),
+            "unit": _get_cell(row, col_map.get("unit"), default="NOT_FOUND"),
+            "numeric_value": _get_cell(row, col_map.get("numeric_value"), default="NOT_FOUND"),
+            "tolerance": _get_cell(row, col_map.get("tolerance"), default="NOT_FOUND"),
+            "standard_reference": _get_cell(row, col_map.get("standard_reference"), default="NOT_FOUND"),
+            "material": _get_cell(row, col_map.get("material"), default="NOT_FOUND"),
+            "source": {
+                "chunk_id": f"{table_id}_row_{row_idx + 1}",
+                "page": page,
+                "exact_text": " | ".join(row),
+            },
+            # Table-extracted specs start at MEDIUM because the column
+            # mapping is heuristic-based. Validation may upgrade to HIGH
+            # if grounding confirms the mapping is correct.
+            "confidence": "MEDIUM",
+        }
+
+        # Fallback: if our column mapping didn't find an item_name, use
+        # the first non-empty cell. This happens with tables that have
+        # unusual headers like "Sl. No." in the first column and the
+        # actual item name in the second column.
+        if not spec["item_name"] or spec["item_name"] == "NOT_FOUND":
+            spec["item_name"] = non_empty[0] if non_empty else "NOT_FOUND"
+
+        if not spec["specification_text"] or spec["specification_text"] == "NOT_FOUND":
+            # Concatenate everything after the item name as the spec text
+            spec["specification_text"] = " ".join(non_empty[1:]) if len(non_empty) > 1 else non_empty[0]
+
+        item_name_str = str(spec["item_name"]).strip()
+        spec_text_str = str(spec["specification_text"]).strip()
+        item_name_str, spec_text_str = _derive_component_and_spec(item_name_str, spec_text_str)
+        spec["item_name"] = item_name_str
+        spec["specification_text"] = spec_text_str
+
+        # Reject rows that are clearly narrative/legal prose instead of
+        # compact technical entries.
+        long_sentence_like = (
+            len(spec_text_str) > 180
+            and spec_text_str.count(" ") > 25
+            and not re.search(r"\d", spec_text_str)
+        )
+        if long_sentence_like:
+            skipped.append(f"narrative row: '{spec_text_str[:50]}'")
+            continue
+
+        # Skip clearly bad rows
+        if len(item_name_str) < 4 and len(spec_text_str) < 10:
+            skipped.append(f"both too short: '{item_name_str}' / '{spec_text_str[:30]}'")
+            continue
+
+        # item_name must carry a real name, not a serial number. When it
+        # doesn't, rescue the name from the spec text if that has content.
+        bad_item = (
+            not item_name_str
+            or item_name_str == "NOT_FOUND"
+            or item_name_str.replace('.', '', 1).isnumeric()
+            or not any(c.isalpha() for c in item_name_str)
+        )
+        if bad_item:
+            if len(spec_text_str) >= 6 and any(c.isalpha() for c in spec_text_str):
+                item_name_str = spec_text_str[:50]
+                spec["item_name"] = item_name_str
+            else:
+                skipped.append(f"item_name bad: '{item_name_str}'")
+                continue
+
+        # Short datasheet values ("SS316", "PN16") are legitimate specs —
+        # no minimum length. Only reject empty or name-only rows.
+        if not spec_text_str or spec_text_str == "NOT_FOUND":
+            skipped.append(f"spec_text empty: '{item_name_str}'")
+            continue
+        if spec_text_str == item_name_str:
+            skipped.append(f"spec_text == item_name: '{item_name_str}'")
+            continue
+
+        specs.append(spec)
+
+    if not specs and skipped:
+        logger.warning(f"Table on page {page} skipped {len(skipped)} rows: {skipped[:3]}")
+
+    logger.info(
+        "Parsed %d specs from %s (page %d, %d cols mapped: %s)",
+        len(specs), table_id, page, len(col_map), list(col_map.keys())
+    )
+    return specs
+
+
+# ── Internal helpers ──────────────────────────────────────────────────────
+
+
+def _clean_table(raw_table: List[List[Optional[str]]]) -> List[List[str]]:
+    """
+    Normalize table cells: None → "", collapse multi-line cells.
+
+    pdfplumber returns None for empty cells and preserves newlines in cells
+    that span multiple lines. Both of these break downstream processing.
+    We also collapse multiple spaces which show up when pdfplumber stitches
+    text from different positions within a cell.
+    """
+    cleaned = []
+    for row in raw_table:
+        cleaned_row = []
+        for cell in row:
+            if cell is None:
+                cleaned_row.append("")
+            else:
+                # Multi-line cells get flattened to single line
+                cleaned_row.append(" ".join(str(cell).split()))
+        cleaned.append(cleaned_row)
+    return cleaned
+
+
+def _get_table_bbox(page: pdfplumber.page.Page) -> Optional[List[float]]:
+    """
+    Try to get the bounding box of the first table on a page.
+    
+    This is best-effort — find_tables() can return empty even when
+    extract_tables() found something (they use different heuristics).
+    We use bbox for chunk metadata but it's not critical if missing.
+    """
+    try:
+        tables = page.find_tables()
+        if tables:
+            return list(tables[0].bbox)
+    except Exception:
+        pass
+    return None
+
+
+def _map_columns(headers: List[str]) -> Dict[str, int]:
+    """
+    Map column indices to spec fields via regex pattern matching.
+
+    Returns something like {"item_name": 1, "unit": 3, "standard_reference": 4}.
+    Each regex pattern can only match one column (first match wins).
+
+    The pattern order matters — we check item_name first because "Item
+    Description" would also match _SPEC_PATTERNS. The most specific
+    patterns (tolerance, standard) are checked last.
+    """
+    mapping: Dict[str, int] = {}
+    patterns = [
+        ("item_name", _ITEM_PATTERNS),
+        ("specification_text", _SPEC_PATTERNS),
+        ("unit", _UNIT_PATTERNS),
+        ("numeric_value", _VALUE_PATTERNS),
+        ("tolerance", _TOLERANCE_PATTERNS),
+        ("standard_reference", _STANDARD_PATTERNS),
+        ("material", _MATERIAL_PATTERNS),
+    ]
+
+    for idx, header in enumerate(headers):
+        for field_name, pattern in patterns:
+            if field_name not in mapping and pattern.search(header):
+                mapping[field_name] = idx
+                break
+
+    return mapping
+
+
+def _get_cell(
+    row: List[str], col_idx: Optional[int], default: str = "NOT_FOUND"
+) -> str:
+    """Safe cell access. Returns default if column index is None or out of range."""
+    if col_idx is None or col_idx >= len(row):
+        return default
+    value = row[col_idx].strip()
+    return value if value else default
+
+
+# ── Smoke test ────────────────────────────────────────────────────────────
+
+if __name__ == "__main__":
+    import sys
+    from pathlib import Path
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s | %(message)s")
+
+    pdf = sys.argv[1] if len(sys.argv) > 1 else "dataset/globaltender1576.pdf"
+    if not Path(pdf).exists():
+        pdf = "dataset/Tenderdocuments.pdf"
+    if not Path(pdf).exists():
+        print("No dataset PDFs found.")
+        sys.exit(1)
+
+    print(f"Extracting tables from {pdf} ...")
+    tables = extract_tables(pdf)
+    print(f"Found {len(tables)} tables.\n")
+
+    for t in tables[:10]:
+        print(f"  {t['table_id']} (page {t['page']}): "
+              f"{len(t['headers'])} cols x {len(t['rows'])} rows")
+        print(f"    headers: {t['headers'][:6]}")
+        if t["rows"]:
+            print(f"    row 1: {t['rows'][0][:6]}")
+
+        # Try parsing to specs
+        specs = parse_table_to_specs(t)
+        if specs:
+            print(f"    -> {len(specs)} specs parsed")
+            for s in specs[:3]:
+                print(f"       {s['item_name'][:40]}: {s['specification_text'][:40]}")
+        print()
+
+    print("Table extraction smoke test passed.")

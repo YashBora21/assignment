@@ -1,0 +1,632 @@
+{
+  "category": null,
+  "manufacturers": [
+    {
+      "manufacturer": "abb",
+      "display_name": "ABB",
+      "category": "motors",
+      "documents": [
+        {
+          "title": "IEC low voltage motors",
+          "doc_type": "datasheet",
+          "category": "motors",
+          "subtype": "IEC low voltage motors",
+          "url": "https://library.e.abb.com/public/1fd380f8ca8b4934ae3fa609d764fd33/21043_ABB_Motor_Guide_REV_D.pdf"
+        },
+        {
+          "title": "General purpose motors",
+          "doc_type": "catalogue",
+          "category": "motors",
+          "subtype": "General purpose motors",
+          "url": "https://library.e.abb.com/public/ec2d9e1e31e3b766c1257b130056f2a1/General%20Purpose%20Motor%20catalogue%20092003.pdf"
+        },
+        {
+          "title": "M2BAX IE3",
+          "doc_type": "datasheet",
+          "category": "motors",
+          "subtype": "M2BAX IE3",
+          "url": "https://library.e.abb.com/public/f6b9ac5740da479b89153f32c8a06fdf/M2BAX_71_355%20IE3%20%209AKK107238%20EN%2011-2017.pdf"
+        }
+      ]
+    },
+    {
+      "manufacturer": "avk",
+      "display_name": "AVK",
+      "category": "valves",
+      "documents": [
+        {
+          "title": "Gate, butterfly and check valves (Series 06/71/820)",
+          "doc_type": "catalogue",
+          "category": "valves",
+          "subtype": "Gate, butterfly and check valves (Series 06/71/820)",
+          "url": "https://assets.ctfassets.net/71o30wuv1rls/PcFKTbr06odvGj1vNU9gX/622a413cd5961c8ea35100a73f117ad9/AVK-Valves-Brochure.pdf"
+        }
+      ]
+    },
+    {
+      "manufacturer": "bharat-bijlee",
+      "display_name": "Bharat Bijlee",
+      "category": "motors",
+      "documents": [
+        {
+          "title": "SynchroVERT IE4/IE5",
+          "doc_type": "catalogue",
+          "category": "motors",
+          "subtype": "SynchroVERT IE4/IE5",
+          "url": "https://www.bharatbijlee.com/wp-content/uploads/2026/04/SynchroVERT-IE4-IE5-6-page-catalogue-R.pdf"
+        },
+        {
+          "title": "Crane and hoist duty motors",
+          "doc_type": "catalogue",
+          "category": "motors",
+          "subtype": "Crane and hoist duty motors",
+          "url": "https://www.bharatbijlee.com/wp-content/uploads/2026/04/crane-hoist-duty-motors-catalogue-110225r_compressed_compressed-compressed.pdf"
+        },
+        {
+          "title": "Flame proof motors",
+          "doc_type": "brochure",
+          "category": "motors",
+          "subtype": "Flame proof motors",
+          "url": "https://www.bharatbijlee.com/wp-content/uploads/2026/04/flame-proof-motor-flyer.pdf"
+        },
+        {
+          "title": "Corporate product range",
+          "doc_type": "brochure",
+          "category": "motors",
+          "subtype": "Corporate product range",
+          "url": "https://www.bharatbijlee.com/wp-content/uploads/2026/04/iss-brochure-design_compressed.pdf"
+        },
+        {
+          "title": "LV motors - hazardous area IE2",
+          "doc_type": "datasheet",
+          "category": "motors",
+          "subtype": "LV motors - hazardous area IE2",
+          "url": "https://www.bharatbijlee.com/wp-content/uploads/2026/04/lv-motors-hazardous-area-application-ie2-energy-efficiency-series-110225r-1.pdf"
+        },
+        {
+          "title": "LV motors - hazardous area IE3",
+          "doc_type": "datasheet",
+          "category": "motors",
+          "subtype": "LV motors - hazardous area IE3",
+          "url": "https://www.bharatbijlee.com/wp-content/uploads/2026/04/lv-motors-hazardous-area-application-ie3-energy-efficiency-series-110225r-compressed.pdf"
+        },
+        {
+          "title": "LV motors - safe area IE2",
+          "doc_type": "catalogue",
+          "category": "motors",
+          "subtype": "LV motors - safe area IE2",
+          "url": "https://www.bharatbijlee.com/wp-content/uploads/2026/04/lv-motors-ie2-safe-area-catalogue-compressed.pdf"
+        },
+        {
+          "title": "LV motors - safe area IE3",
+          "doc_type": "catalogue",
+          "category": "motors",
+          "subtype": "LV motors - safe area IE3",
+          "url": "https://www.bharatbijlee.com/wp-content/uploads/2026/04/lv-motors-ie3-safe-area-catalogue.pdf"
+        },
+        {
+          "title": "Low voltage motors - product range",
+          "doc_type": "brochure",
+          "category": "motors",
+          "subtype": "Low voltage motors - product range",
+          "url": "https://www.bharatbijlee.com/wp-content/uploads/2026/04/lv-motors-product-range-flyer-061223.pdf"
+        },
+        {
+          "title": "Medium voltage motors",
+          "doc_type": "catalogue",
+          "category": "motors",
+          "subtype": "Medium voltage motors",
+          "url": "https://www.bharatbijlee.com/wp-content/uploads/2026/04/motors-mv-catalogue.pdf"
+        },
+        {
+          "title": "Crane and hoist duty motors",
+          "doc_type": "catalogue",
+          "category": "motors",
+          "subtype": "Crane and hoist duty motors",
+          "url": "https://www.makhariaelectricals.net/assets/pdf/bbl_craneduty.pdf"
+        },
+        {
+          "title": "added from the corpus directory; the address was recovered later and serves these exact bytes",
+          "doc_type": "other",
+          "category": "motors",
+          "url": "https://www.bharatbijlee.com/wp-content/uploads/2026/04/projectbrochure.pdf"
+        }
+      ]
+    },
+    {
+      "manufacturer": "bray",
+      "display_name": "Bray",
+      "category": "valves",
+      "documents": [
+        {
+          "title": "Ball valve range",
+          "doc_type": "catalogue",
+          "category": "valves",
+          "subtype": "Ball valve range",
+          "url": "https://www.bray.com/docs/default-source/brochures/product-brochures/en-bro-2101-ball-valve-overview-web.pdf"
+        },
+        {
+          "title": "Series 1050 resilient seated butterfly valves",
+          "doc_type": "catalogue",
+          "category": "valves",
+          "subtype": "Series 1050 resilient seated butterfly valves",
+          "url": "https://www.bray.com/docs/default-source/brochures/product-brochures/en_b-1050_rsb_valves_web.pdf"
+        },
+        {
+          "title": "Rotary control valves",
+          "doc_type": "catalogue",
+          "category": "valves",
+          "subtype": "Rotary control valves",
+          "url": "https://www.bray.com/docs/default-source/brochures/product-brochures/en_ovw_rcv_20210621_01-min.pdf"
+        },
+        {
+          "title": "Control valves",
+          "doc_type": "datasheet",
+          "category": "valves",
+          "subtype": "Control valves",
+          "url": "https://www.bray.com/docs/default-source/manuals-guides/selection-guides/control_valve_selection_guide_v2_2024.pdf"
+        },
+        {
+          "title": "Series 1050 resilient seated butterfly valves",
+          "doc_type": "datasheet",
+          "category": "valves",
+          "subtype": "Series 1050 resilient seated butterfly valves",
+          "url": "https://www.bray.com/docs/default-source/manuals-guides/technical-manuals/tm-1050_resilient.pdf"
+        },
+        {
+          "title": "Series S4x high performance butterfly valves",
+          "doc_type": "datasheet",
+          "category": "valves",
+          "subtype": "Series S4x high performance butterfly valves",
+          "url": "https://www.bray.com/docs/default-source/manuals-guides/technical-sales-guide/en_gbl_tsm_s4x.pdf"
+        }
+      ]
+    },
+    {
+      "manufacturer": "circor",
+      "display_name": "CIRCOR",
+      "category": "valves",
+      "documents": [
+        {
+          "title": "D-Series",
+          "doc_type": "catalogue",
+          "category": "valves",
+          "subtype": "D-Series",
+          "url": "https://www.circor.com/sites/default/files/imported-files/All-Valves-Brochures-CIRCOR_D-Series_Product_Brochure.pdf"
+        }
+      ]
+    },
+    {
+      "manufacturer": "crompton",
+      "display_name": "Crompton",
+      "category": "motors",
+      "documents": [
+        {
+          "title": "Flameproof motors (Ex d, gas group IIC)",
+          "doc_type": "catalogue",
+          "category": "motors",
+          "subtype": "Flameproof motors (Ex d, gas group IIC)",
+          "url": "https://5.imimg.com/data5/SELLER/Doc/2021/8/OO/OU/KT/3138466/crompton-greaves-flameproof-motor.pdf"
+        },
+        {
+          "title": "Standard LV squirrel-cage motors",
+          "doc_type": "datasheet",
+          "category": "motors",
+          "subtype": "Standard LV squirrel-cage motors",
+          "url": "https://www.makhariaelectricals.net/assets/pdf/CG-Crompton-Standard-Motor.pdf"
+        }
+      ]
+    },
+    {
+      "manufacturer": "delval-flow",
+      "display_name": "delval-flow",
+      "category": "valves",
+      "documents": [
+        {
+          "title": "product bulletin",
+          "doc_type": "brochure",
+          "url": "https://www.delvalflow.com/media/uploads/brochures/1543271536-DelTorq-Series-2E-Electric-Actuator-Bulletin-2016.pdf"
+        },
+        {
+          "title": "product range catalogue",
+          "doc_type": "catalogue",
+          "url": "https://www.delvalflow.com/media/uploads/brochures/1560358485-Delval_Marine_v13.pdf"
+        },
+        {
+          "title": "product document",
+          "doc_type": "other",
+          "url": "https://www.delvalflow.com/media/uploads/brochures/1578341740-DelVal-Series75-76.pdf"
+        },
+        {
+          "title": "product range catalogue",
+          "doc_type": "catalogue",
+          "url": "https://www.delvalflow.com/media/uploads/brochures/1578581008-Water-Industry.pdf"
+        },
+        {
+          "title": "product range catalogue",
+          "doc_type": "catalogue",
+          "url": "https://www.delvalflow.com/media/uploads/brochures/1581090301-Mining-Industry-Brochure.pdf"
+        },
+        {
+          "title": "product document",
+          "doc_type": "other",
+          "url": "https://www.delvalflow.com/media/uploads/brochures/1606142668-Automation_Series-83-Valve-Position-Monitor.pdf"
+        },
+        {
+          "title": "product document",
+          "doc_type": "other",
+          "url": "https://www.delvalflow.com/media/uploads/brochures/1620420032-Series-65-sp-2019_v5.pdf"
+        },
+        {
+          "title": "product document",
+          "doc_type": "other",
+          "url": "https://www.delvalflow.com/media/uploads/brochures/1659475887-Series-21pt-2018.pdf"
+        },
+        {
+          "title": "product document",
+          "doc_type": "other",
+          "url": "https://www.delvalflow.com/media/uploads/brochures/1659634039-Final-Series-51-53-v5b_04-08-2022.pdf"
+        },
+        {
+          "title": "product document",
+          "doc_type": "other",
+          "url": "https://www.delvalflow.com/media/uploads/brochures/1660775902-Final-_Series-5C-5D_2022_v3b_17-08-2022.pdf"
+        },
+        {
+          "title": "product document",
+          "doc_type": "other",
+          "url": "https://www.delvalflow.com/media/uploads/brochures/1666196831-Final-Series-56-57-M1c_10-10-2022.pdf"
+        },
+        {
+          "title": "product document",
+          "doc_type": "other",
+          "url": "https://www.delvalflow.com/media/uploads/brochures/1666196897-Final-Series-58-2022-M2_a1_10-10-2022.pdf"
+        },
+        {
+          "title": "product specification bulletin",
+          "doc_type": "datasheet",
+          "url": "https://www.delvalflow.com/media/uploads/brochures/1671729021-Technical-Bulletin---097-PRODUCT-SPECIFICATION-SERIES-44-49-HPBFV.pdf"
+        },
+        {
+          "title": "product specification bulletin",
+          "doc_type": "datasheet",
+          "url": "https://www.delvalflow.com/media/uploads/brochures/1671729087-Technical-Bulletin---099-PRODUCT-SPECIFICATION-SERIES-51-53-CENTRIC-BFV.pdf"
+        },
+        {
+          "title": "product specification bulletin",
+          "doc_type": "datasheet",
+          "url": "https://www.delvalflow.com/media/uploads/brochures/1671729175-Technical-Bulletin---113-PRODUCT-SPECIFICATION-SERIES-75-76.pdf"
+        },
+        {
+          "title": "product document",
+          "doc_type": "other",
+          "url": "https://www.delvalflow.com/media/uploads/brochures/1677871435-Final-Actuator-25-metirc-2022_v5_27-02-2023.pdf"
+        },
+        {
+          "title": "product specification bulletin",
+          "doc_type": "datasheet",
+          "url": "https://www.delvalflow.com/media/uploads/brochures/1692719045-Technical-Bulletin---118-PRODUCT-SPECIFICATION-SERIES-7-8-R1.pdf"
+        },
+        {
+          "title": "product specification bulletin",
+          "doc_type": "datasheet",
+          "url": "https://www.delvalflow.com/media/uploads/brochures/1692719501-Technical-Bulletin---117-PRODUCT-SPECIFICATION-SERIES-65-72-BLV-R1.pdf"
+        },
+        {
+          "title": "product specification bulletin",
+          "doc_type": "datasheet",
+          "url": "https://www.delvalflow.com/media/uploads/brochures/1692719700-Technical-Bulletin---098-R1-PRODUCT-SPECIFICATION-SERIES-50-52-CENTRIC-BFV.pdf"
+        },
+        {
+          "title": "product specification bulletin",
+          "doc_type": "datasheet",
+          "url": "https://www.delvalflow.com/media/uploads/brochures/1692721463-Technical-Bulletin---133-PRODUCT-SPECIFICATION-SERIES-56_57-CENTRIC-BFV.pdf"
+        },
+        {
+          "title": "product specification bulletin",
+          "doc_type": "datasheet",
+          "url": "https://www.delvalflow.com/media/uploads/brochures/1692721512-Technical-Bulletin---114-PRODUCT-SPECIFICATION-SERIES-58-CENTRIC-BFV.pdf"
+        },
+        {
+          "title": "product specification bulletin",
+          "doc_type": "datasheet",
+          "url": "https://www.delvalflow.com/media/uploads/brochures/1692721554-Technical-Bulletin---115-PRODUCT-SPECIFICATION-SERIES-59-CENTRIC-BFV.pdf"
+        },
+        {
+          "title": "product specification bulletin",
+          "doc_type": "datasheet",
+          "url": "https://www.delvalflow.com/media/uploads/brochures/1692721608-Technical-Bulletin---139-PRODUCT-SPECIFICATION-SERIES-83-series.pdf"
+        },
+        {
+          "title": "product specification bulletin",
+          "doc_type": "datasheet",
+          "url": "https://www.delvalflow.com/media/uploads/brochures/1692721686-Technical-Bulletin---135-PRODUCT-SPECIFICATION-SERIES-5C-5D-CENTRIC-BFV.pdf"
+        },
+        {
+          "title": "product specification bulletin",
+          "doc_type": "datasheet",
+          "url": "https://www.delvalflow.com/media/uploads/brochures/1692721738-Technical-Bulletin---134-PRODUCT-SPECIFICATION-SERIES-40-41-CENTRIC-BFV.pdf"
+        }
+      ]
+    },
+    {
+      "manufacturer": "duncan-engineering",
+      "display_name": "Duncan Engineering",
+      "category": "valves",
+      "documents": [
+        {
+          "title": "Rack-and-pinion pneumatic rotary actuator",
+          "doc_type": "datasheet",
+          "category": "valves",
+          "subtype": "Rack-and-pinion pneumatic rotary actuator",
+          "url": "https://duncanengg.com/writable/uploads/documents/RACK-AND-PINION-ACTUATOR.pdf"
+        },
+        {
+          "title": "Knife-edge / slurry valve",
+          "doc_type": "datasheet",
+          "category": "valves",
+          "subtype": "Knife-edge / slurry valve",
+          "url": "https://mkp.gem.gov.in/catalog_data/catalog_support_document/60/36/714/CatalogAttrs/SpecificationDocument/2025/10/17/2025_10_17_11_19_29_knife_edge_valve_duncan_-1_2025-10-17-11-19-30_ce576ca26cae87f64e026dc5a255d00d.pdf"
+        },
+        {
+          "title": "Valves, actuators and pneumatics range",
+          "doc_type": "catalogue",
+          "category": "valves",
+          "subtype": "Valves, actuators and pneumatics range",
+          "url": "https://mkp.gem.gov.in/catalog_data/catalog_support_document/60/36/714/CatalogAttrs/SpecificationDocument/2026/5/5/2026_05_05_10_48_40_pneumatics_catalogue_duncan_11__2026-05-05-10-48-43_8a0ec9fa4f0bf622d555bc158e1809ba.pdf"
+        }
+      ]
+    },
+    {
+      "manufacturer": "ebara",
+      "display_name": "Ebara",
+      "category": "pumps",
+      "documents": [
+        {
+          "title": "FSA split-case pump",
+          "doc_type": "catalogue",
+          "category": "pumps",
+          "subtype": "FSA split-case pump",
+          "url": "https://ebarapumps.vn/wp-content/uploads/2017/11/Catalogue-Ebara-FSA.pdf"
+        },
+        {
+          "title": "General pump range",
+          "doc_type": "catalogue",
+          "category": "pumps",
+          "subtype": "General pump range",
+          "url": "https://www.ebara.co.th/wp-content/uploads/2024/10/EBARA-THAILAND-LIMITED_General-Product-Catalogue-Sep-30-2024Edit-HO-address.pdf"
+        },
+        {
+          "title": "Centrifugal and submersible pumps",
+          "doc_type": "catalogue",
+          "category": "pumps",
+          "subtype": "Centrifugal and submersible pumps",
+          "url": "https://www.makoswater.com/wp-content/uploads/2021/04/EBARA-CATALOGUE.pdf"
+        },
+        {
+          "title": "DLU submersible sewage pump",
+          "doc_type": "datasheet",
+          "category": "pumps",
+          "subtype": "DLU submersible sewage pump",
+          "url": "https://www.pumpsebara.com/wp-content/uploads/DLU_tech.pdf"
+        }
+      ]
+    },
+    {
+      "manufacturer": "emerson-fisher",
+      "display_name": "Emerson Fisher",
+      "category": "valves",
+      "documents": [
+        {
+          "title": "Fisher D series",
+          "doc_type": "datasheet",
+          "category": "valves",
+          "subtype": "Fisher D series",
+          "url": "https://www.emerson.com/is/content/emerson/en/final-control/flow-controls/documents/d103311x012.pdf"
+        },
+        {
+          "title": "Fisher large ED/EWD ET/EWT",
+          "doc_type": "datasheet",
+          "category": "valves",
+          "subtype": "Fisher large ED/EWD ET/EWT",
+          "url": "https://www.emerson.com/is/content/emerson/en/final-control/flow-controls/documents/d103554x012.pdf"
+        },
+        {
+          "title": "Fisher globe valves",
+          "doc_type": "catalogue",
+          "category": "valves",
+          "subtype": "Fisher globe valves",
+          "url": "https://www.emerson.com/is/content/emerson/en/final-control/flow-controls/documents/d352343x012.pdf"
+        },
+        {
+          "title": "Control valve handbook",
+          "doc_type": "catalogue",
+          "category": "valves",
+          "subtype": "Control valve handbook",
+          "url": "https://www.emerson.com/is/content/emerson/en/final-control/flow-controls/valves/documents/control-valve-handbook-en-3661206.pdf"
+        }
+      ]
+    },
+    {
+      "manufacturer": "flowserve",
+      "display_name": "Flowserve",
+      "category": "valves",
+      "documents": [
+        {
+          "title": "Control valves",
+          "doc_type": "catalogue",
+          "category": "valves",
+          "subtype": "Control valves",
+          "url": "https://www.flowserve.com/sites/default/files/dam/documents/FCENBR00002_EN_A4.pdf"
+        },
+        {
+          "title": "Valtek GS",
+          "doc_type": "datasheet",
+          "category": "valves",
+          "subtype": "Valtek GS",
+          "url": "https://www.flowserve.com/sites/default/files/dam/documents/VLENTB0300_EN_A4.pdf"
+        },
+        {
+          "title": "Worcester controls",
+          "doc_type": "catalogue",
+          "category": "valves",
+          "subtype": "Worcester controls",
+          "url": "https://www.flowserve.com/sites/default/files/dam/documents/WCENBR0001_EN_AQ.pdf"
+        }
+      ]
+    },
+    {
+      "manufacturer": "intervalve-poonawalla",
+      "display_name": "Intervalve Poonawalla",
+      "category": "valves",
+      "documents": [
+        {
+          "title": "Wafer-type swing check valve (IVC / IVCT)",
+          "doc_type": "datasheet",
+          "category": "valves",
+          "subtype": "Wafer-type swing check valve (IVC / IVCT)",
+          "url": "https://5.imimg.com/data5/SELLER/Doc/2023/4/302651538/JJ/AR/JF/7369423/intervalve-wafer-type-swing-check-valve.pdf"
+        },
+        {
+          "title": "Ball valve (PED Module H)",
+          "doc_type": "other",
+          "category": "valves",
+          "subtype": "Ball valve (PED Module H)",
+          "url": "https://www.intervalvepoonawalla.com/wp-content/uploads/2024/02/PED-Module-H-Ball-Valve.pdf"
+        },
+        {
+          "title": "Valve product portfolio (butterfly, ball, gate, globe, check)",
+          "doc_type": "catalogue",
+          "category": "valves",
+          "subtype": "Valve product portfolio (butterfly, ball, gate, globe, check)",
+          "url": "https://www.intervalvepoonawalla.com/wp-content/uploads/2024/09/PRODUCT-PORTFOLIO_REV-0.pdf"
+        },
+        {
+          "title": "Valve and Elomatic actuator range",
+          "doc_type": "catalogue",
+          "category": "valves",
+          "subtype": "Valve and Elomatic actuator range",
+          "url": "https://www.pushkarnasales.com/pdf/INTERVALVE-ELOMATIC/IV%20General%20Catalogue.pdf"
+        }
+      ]
+    },
+    {
+      "manufacturer": "ksb",
+      "display_name": "KSB",
+      "category": "pumps",
+      "documents": [
+        {
+          "title": "Etanorm",
+          "doc_type": "datasheet",
+          "category": "pumps",
+          "subtype": "Etanorm",
+          "url": "https://www.lenntech.com/Data-sheets/KSB-Etanorm-L.pdf"
+        },
+        {
+          "title": "Etanorm SYT",
+          "doc_type": "brochure",
+          "category": "pumps",
+          "subtype": "Etanorm SYT",
+          "url": "https://www.puffer.com/getattachment/0da620c0-4550-4b75-a098-c103106f732d/ksb-industrial-hot-oil-thermal-fluids-brochure-2026.pdf"
+        }
+      ]
+    },
+    {
+      "manufacturer": "sulzer",
+      "display_name": "sulzer",
+      "category": "pumps",
+      "documents": [
+        {
+          "title": "added from the corpus directory; the address was recovered later and serves these exact bytes",
+          "doc_type": "other",
+          "category": "pumps",
+          "url": "https://www.sulzer.com/en/-/media/files/products/common/salesprogram_e00543.pdf"
+        }
+      ]
+    },
+    {
+      "manufacturer": "valmatic",
+      "display_name": "Valmatic",
+      "category": "valves",
+      "documents": [
+        {
+          "title": "added from the corpus directory; the address was recovered later and serves these exact bytes",
+          "doc_type": "datasheet",
+          "category": "valves",
+          "url": "https://www.valmatic.com/Portals/0/drawings/VM-4700-S_9-21-20.pdf"
+        },
+        {
+          "title": "added from the corpus directory; the address was recovered later and serves these exact bytes",
+          "doc_type": "other",
+          "category": "valves",
+          "url": "https://www.valmatic.com/Portals/0/drawings/VMC-4702A1L_11-18-14.pdf"
+        },
+        {
+          "title": "added from the corpus directory; the address was recovered later and serves these exact bytes",
+          "doc_type": "other",
+          "category": "valves",
+          "url": "https://www.valmatic.com/Portals/0/drawings/VMC-4702A3L_11-18-14.pdf"
+        },
+        {
+          "title": "added from the corpus directory; the address was recovered later and serves these exact bytes",
+          "doc_type": "other",
+          "category": "valves",
+          "url": "https://www.valmatic.com/Portals/0/drawings/VMC-4702A6L_11-18-14.pdf"
+        },
+        {
+          "title": "added from the corpus directory; the address was recovered later and serves these exact bytes",
+          "doc_type": "other",
+          "category": "valves",
+          "url": "https://www.valmatic.com/Portals/0/drawings/VMC-4702A9L-A9W_11-18-14.pdf"
+        },
+        {
+          "title": "added from the corpus directory; the address was recovered later and serves these exact bytes",
+          "doc_type": "other",
+          "category": "valves",
+          "url": "https://www.valmatic.com/Portals/0/drawings/VMC-4702AAL-AAW_11-18-14.pdf"
+        },
+        {
+          "title": "added from the corpus directory; the address was recovered later and serves these exact bytes",
+          "doc_type": "other",
+          "category": "valves",
+          "url": "https://www.valmatic.com/Portals/0/drawings/VMC-4702ABL-ABW_11-18-14.pdf"
+        }
+      ]
+    },
+    {
+      "manufacturer": "xylem-godwin",
+      "display_name": "Xylem Godwin",
+      "category": "pumps",
+      "documents": [
+        {
+          "title": "Godwin dewatering pumps",
+          "doc_type": "catalogue",
+          "category": "pumps",
+          "subtype": "Godwin dewatering pumps",
+          "url": "https://www.xylem.com/siteassets/brand/godwin/resources/brochure/godwin_product_catalog_us17.pdf"
+        }
+      ]
+    },
+    {
+      "manufacturer": "xylem-goulds",
+      "display_name": "Xylem Goulds",
+      "category": "pumps",
+      "documents": [
+        {
+          "title": "Goulds jet and submersible pumps",
+          "doc_type": "catalogue",
+          "category": "pumps",
+          "subtype": "Goulds jet and submersible pumps",
+          "url": "https://www.xylem.com/siteassets/brand/goulds-water-technology/resources/brochure/jet-and-submersible-product-catalog-jetsub.pdf"
+        },
+        {
+          "title": "Goulds wastewater pumps",
+          "doc_type": "catalogue",
+          "category": "pumps",
+          "subtype": "Goulds wastewater pumps",
+          "url": "https://www.xylem.com/siteassets/brand/goulds-water-technology/resources/brochure/wastewater-product-catalog-wws.pdf"
+        }
+      ]
+    }
+  ]
+}

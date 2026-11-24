@@ -1,0 +1,18 @@
+{
+  "manufacturer": "avk",
+  "display_name": "AVK",
+  "documents": [
+    {
+      "file": "AVK-Valves-Brochure.pdf",
+      "title": "Gate, butterfly and check valves (Series 06/71/820)",
+      "url": "https://assets.ctfassets.net/71o30wuv1rls/PcFKTbr06odvGj1vNU9gX/622a413cd5961c8ea35100a73f117ad9/AVK-Valves-Brochure.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 28,
+      "doc_type": "catalogue",
+      "category": "valves",
+      "subtype": "Gate, butterfly and check valves (Series 06/71/820)",
+      "sha256": "099032dc4dad0657445a8718301b25b6d1772e757799dffe965be6bc2c07b043"
+    }
+  ],
+  "category": "valves"
+}

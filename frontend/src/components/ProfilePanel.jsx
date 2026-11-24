@@ -1,0 +1,211 @@
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Save, Building, X, Plus } from 'lucide-react';
+
+const api = axios.create({ baseURL: '/api' });
+
+function TagInput({ tags, setTags, placeholder }) {
+  const [input, setInput] = useState('');
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const val = input.trim();
+      if (val && !tags.includes(val)) {
+        setTags([...tags, val]);
+        setInput('');
+      }
+    }
+  };
+
+  const removeTag = (tagToRemove) => {
+    setTags(tags.filter(t => t !== tagToRemove));
+  };
+
+  return (
+    <div style={{ marginBottom: '16px' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '12px' }}>
+        {tags.map((tag, idx) => (
+          <div key={idx} style={{ 
+            background: 'var(--canvas-soft)', 
+            padding: '6px 12px', 
+            borderRadius: '999px', 
+            fontSize: '13px',
+            fontWeight: 600,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            border: '1px solid var(--hairline)',
+            color: 'var(--text-body)',
+            animation: 'fadeIn 0.3s ease'
+          }}>
+            {tag}
+            <button 
+              type="button" 
+              onClick={() => removeTag(tag)}
+              style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: 0, display: 'flex' }}
+            >
+              <X size={14} />
+            </button>
+          </div>
+        ))}
+      </div>
+      <div style={{ display: 'flex', gap: '10px' }}>
+        <input 
+          type="text" 
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder={placeholder}
+          style={{
+            flex: 1, background: 'var(--surface-card)', border: '1px solid var(--hairline)', borderRadius: '12px',
+            color: 'var(--text-ink)', padding: '12px 16px', fontSize: '14px', outline: 'none'
+          }}
+        />
+        <button 
+          type="button"
+          onClick={() => handleKeyDown({ key: 'Enter', preventDefault: () => {} })}
+          className="icon-btn"
+          style={{ width: '44px', height: '44px' }}
+        >
+          <Plus size={18} />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export default function ProfilePanel() {
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const [companyName, setCompanyName] = useState("");
+  const [budget, setBudget] = useState(0);
+  const [capabilities, setCapabilities] = useState([]);
+  const [certifications, setCertifications] = useState([]);
+  const [locations, setLocations] = useState([]);
+  const [exclusions, setExclusions] = useState([]);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await api.get('/profile');
+        const data = res.data || {};
+        setCompanyName(data.company_name || "");
+        setBudget(data.max_project_budget_usd || 0);
+        setCapabilities(data.core_capabilities || []);
+        setCertifications(data.certifications || []);
+        setLocations(data.preferred_locations || []);
+        setExclusions(data.exclusions || []);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProfile();
+  }, []);
+
+  const handleSave = async () => {
+    try {
+      setSaving(true);
+      setMessage("");
+      const payload = {
+        company_name: companyName,
+        core_capabilities: capabilities,
+        certifications: certifications,
+        max_project_budget_usd: Number(budget),
+        preferred_locations: locations,
+        exclusions: exclusions
+      };
+      await api.post('/profile', payload);
+      setMessage("Profile saved successfully.");
+    } catch {
+      setMessage("Failed to save profile.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  if (loading) return <div className="empty-state animate-fade">Loading company profile...</div>;
+
+  return (
+    <div className="panel animate-fade" style={{ padding: '80px 40px', maxWidth: '1100px', margin: '0 auto', height: '100%', overflowY: 'auto' }}>
+      <div style={{ marginBottom: '64px' }}>
+        <div className="hero-tag" style={{ display: 'inline-block', marginBottom: '16px' }}>Intelligence Core</div>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '48px', color: 'var(--text-ink)', marginBottom: '16px', letterSpacing: '-0.04em' }}>
+          Company Profile
+        </h2>
+        <p style={{ color: 'var(--text-muted)', fontSize: '20px', lineHeight: 1.6, maxWidth: '700px' }}>
+          Define your operational parameters. This data grounds our evaluation engine, 
+          allowing it to rank tenders against your core strengths.
+        </p>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', marginBottom: '80px' }}>
+        <div style={{ gridColumn: 'span 2' }}>
+           <label style={{ display: 'block', fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: '16px' }}>
+            Official Entity Name
+          </label>
+          <input 
+            type="text" 
+            value={companyName} 
+            onChange={(e) => setCompanyName(e.target.value)}
+            style={{ width: '100%', background: 'var(--surface-card)', border: '1px solid var(--hairline)', borderRadius: '16px', color: 'var(--text-ink)', padding: '18px 24px', fontSize: '18px', outline: 'none', fontWeight: 500 }}
+          />
+        </div>
+
+        <div>
+          <label style={{ display: 'block', fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: '16px' }}>
+            Maximum Project Valuation (USD)
+          </label>
+          <input 
+            type="number" 
+            value={budget} 
+            onChange={(e) => setBudget(e.target.value)}
+            style={{ width: '100%', background: 'var(--surface-card)', border: '1px solid var(--hairline)', borderRadius: '16px', color: 'var(--text-ink)', padding: '14px 20px', fontSize: '16px', outline: 'none', fontWeight: 500 }}
+          />
+        </div>
+
+        <div>
+          <label style={{ display: 'block', fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: '16px' }}>
+            Core Capabilities
+          </label>
+          <TagInput tags={capabilities} setTags={setCapabilities} placeholder="e.g. EPC Contracting" />
+        </div>
+
+        <div>
+          <label style={{ display: 'block', fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: '16px' }}>
+            Strategic Certifications
+          </label>
+          <TagInput tags={certifications} setTags={setCertifications} placeholder="e.g. ASME VIII" />
+        </div>
+
+        <div>
+          <label style={{ display: 'block', fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: '16px' }}>
+            Preferred Jurisdictions
+          </label>
+          <TagInput tags={locations} setTags={setLocations} placeholder="e.g. SE Asia" />
+        </div>
+      </div>
+
+      <div style={{ display: 'flex', alignItems: 'center', gap: '24px', paddingBottom: '120px' }}>
+        <button 
+          onClick={handleSave} 
+          disabled={saving}
+          className="primary-pill"
+          style={{ padding: '14px 32px' }}
+        >
+          <Save size={18} />
+          {saving ? 'Synchronizing...' : 'Save Profile'}
+        </button>
+        {message && (
+          <span className="animate-fade" style={{ fontSize: '15px', fontWeight: 600, color: message.includes("success") ? 'var(--success)' : 'var(--error)' }}>
+            {message}
+          </span>
+        )}
+      </div>
+    </div>
+  );
+}

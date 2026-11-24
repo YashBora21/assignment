@@ -1,0 +1,56 @@
+# TenderExtractPro — backend image (CPU only)
+#
+# Build:
+#   docker build -f Dockerfile.backend -t <dockerhub-user>/tender-extract-backend:latest .
+# Run:
+#   docker run --rm -p 8000:8000 --env-file .env \
+#     -v "%cd%/outputs:/app/outputs" -v "%cd%/uploads:/app/uploads" \
+#     <dockerhub-user>/tender-extract-backend:latest
+
+FROM python:3.12-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    HF_HOME=/home/appuser/.cache/huggingface \
+    TRANSFORMERS_VERBOSITY=error \
+    TOKENIZERS_PARALLELISM=false \
+    OCR_ENGINE=paddleocr \
+    PADDLEOCR_DEVICE=cpu \
+    REQUIRE_GPU=0
+
+WORKDIR /app
+
+# OCR + OpenCV runtime libraries.  Poppler stays in case pdf2image is used as
+# a fallback; PyMuPDF (fitz) is the primary renderer.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        tesseract-ocr \
+        poppler-utils \
+        libgl1 \
+        libglib2.0-0 \
+        libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt ./
+# CPU-only torch keeps the image ~1.5 GB smaller than the PyPI default wheel.
+# paddlepaddle is deliberately absent from requirements.txt (local installs use
+# the GPU build from Paddle's own index), so the CPU build is installed here.
+RUN python -m pip install --upgrade pip \
+    && python -m pip install torch --index-url https://download.pytorch.org/whl/cpu \
+    && python -m pip install "paddlepaddle>=3.0.0" \
+    && python -m pip install -r requirements.txt
+
+COPY . .
+
+RUN useradd --create-home --uid 10001 appuser \
+    && mkdir -p /app/uploads /app/outputs /app/state /app/qdrant_storage \
+        /home/appuser/.cache/huggingface \
+    && chown -R appuser:appuser /app /home/appuser
+
+USER appuser
+EXPOSE 8000
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=90s --retries=3 \
+    CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)" || exit 1
+
+CMD ["python", "-m", "uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]

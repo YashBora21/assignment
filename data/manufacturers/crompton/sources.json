@@ -1,0 +1,29 @@
+{
+  "manufacturer": "crompton",
+  "display_name": "Crompton",
+  "documents": [
+    {
+      "file": "crompton-greaves-flameproof-motor.pdf",
+      "title": "Flameproof motors (Ex d, gas group IIC)",
+      "url": "https://5.imimg.com/data5/SELLER/Doc/2021/8/OO/OU/KT/3138466/crompton-greaves-flameproof-motor.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 18,
+      "doc_type": "catalogue",
+      "category": "motors",
+      "subtype": "Flameproof motors (Ex d, gas group IIC)",
+      "sha256": "7e311ec9606e854f27370a2c4931a42f7c361c0c0c36db55ac6dea8eb71eca16"
+    },
+    {
+      "file": "CG-Crompton-Standard-Motor.pdf",
+      "title": "Standard LV squirrel-cage motors",
+      "url": "https://www.makhariaelectricals.net/assets/pdf/CG-Crompton-Standard-Motor.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 15,
+      "doc_type": "datasheet",
+      "category": "motors",
+      "subtype": "Standard LV squirrel-cage motors",
+      "sha256": "61e686ff9d64870dd24a9a98031066470920b428424ed11ef1f2d40a58ff4013"
+    }
+  ],
+  "category": "motors"
+}

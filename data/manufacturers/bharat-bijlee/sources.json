@@ -1,0 +1,139 @@
+{
+  "manufacturer": "bharat-bijlee",
+  "display_name": "Bharat Bijlee",
+  "documents": [
+    {
+      "file": "SynchroVERT-IE4-IE5-6-page-catalogue-R.pdf",
+      "title": "SynchroVERT IE4/IE5",
+      "url": "https://www.bharatbijlee.com/wp-content/uploads/2026/04/SynchroVERT-IE4-IE5-6-page-catalogue-R.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 6,
+      "doc_type": "catalogue",
+      "category": "motors",
+      "subtype": "SynchroVERT IE4/IE5",
+      "sha256": "9d7cb548bc91f565754b1113564fb4f093361ffa611fadbbb747e94014bb8d81"
+    },
+    {
+      "file": "crane-hoist-duty-motors-catalogue-110225r_compressed_compressed-compressed.pdf",
+      "title": "Crane and hoist duty motors",
+      "url": "https://www.bharatbijlee.com/wp-content/uploads/2026/04/crane-hoist-duty-motors-catalogue-110225r_compressed_compressed-compressed.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 32,
+      "doc_type": "catalogue",
+      "category": "motors",
+      "subtype": "Crane and hoist duty motors",
+      "sha256": "e1ea727e7a943a9f534c3495dfd1cd19e7f126222285e640bf08e70485f18c0c"
+    },
+    {
+      "file": "flame-proof-motor-flyer.pdf",
+      "title": "Flame proof motors",
+      "url": "https://www.bharatbijlee.com/wp-content/uploads/2026/04/flame-proof-motor-flyer.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 4,
+      "doc_type": "brochure",
+      "category": "motors",
+      "subtype": "Flame proof motors",
+      "sha256": "ce7e71a6cd2ca69a0f5cefa483adb57591a0ba53c9090fc4d3fad28ff1eba2a3"
+    },
+    {
+      "file": "iss-brochure-design_compressed.pdf",
+      "title": "Corporate product range",
+      "url": "https://www.bharatbijlee.com/wp-content/uploads/2026/04/iss-brochure-design_compressed.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 4,
+      "doc_type": "brochure",
+      "category": "motors",
+      "subtype": "Corporate product range",
+      "sha256": "99ca3324da8c4de02a084203d25a709f0f6b680aa764613dc0cf731bc023407d"
+    },
+    {
+      "file": "lv-motors-hazardous-area-application-ie2-energy-efficiency-series-110225r-1.pdf",
+      "title": "LV motors - hazardous area IE2",
+      "url": "https://www.bharatbijlee.com/wp-content/uploads/2026/04/lv-motors-hazardous-area-application-ie2-energy-efficiency-series-110225r-1.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 28,
+      "doc_type": "datasheet",
+      "category": "motors",
+      "subtype": "LV motors - hazardous area IE2",
+      "sha256": "481c5c9d137be08cd719a577e5eac6120707f4e517a30155e6fff669f639851a"
+    },
+    {
+      "file": "lv-motors-hazardous-area-application-ie3-energy-efficiency-series-110225r-compressed.pdf",
+      "title": "LV motors - hazardous area IE3",
+      "url": "https://www.bharatbijlee.com/wp-content/uploads/2026/04/lv-motors-hazardous-area-application-ie3-energy-efficiency-series-110225r-compressed.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 28,
+      "doc_type": "datasheet",
+      "category": "motors",
+      "subtype": "LV motors - hazardous area IE3",
+      "sha256": "af8bd7210282a1960f61cbbf3e1ddfd52126c737a78ca3b7e95a20fad618eb9f"
+    },
+    {
+      "file": "lv-motors-ie2-safe-area-catalogue-compressed.pdf",
+      "title": "LV motors - safe area IE2",
+      "url": "https://www.bharatbijlee.com/wp-content/uploads/2026/04/lv-motors-ie2-safe-area-catalogue-compressed.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 19,
+      "doc_type": "catalogue",
+      "category": "motors",
+      "subtype": "LV motors - safe area IE2",
+      "sha256": "33f63c04b1ee0c632d0453174ee6d67bc3b214811d7bb6927f62ca64fd9b16f8"
+    },
+    {
+      "file": "lv-motors-ie3-safe-area-catalogue.pdf",
+      "title": "LV motors - safe area IE3",
+      "url": "https://www.bharatbijlee.com/wp-content/uploads/2026/04/lv-motors-ie3-safe-area-catalogue.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 21,
+      "doc_type": "catalogue",
+      "category": "motors",
+      "subtype": "LV motors - safe area IE3",
+      "sha256": "25d3dfa0440fdd368f64ac30cb4864c01a43e91a3d02d27c826fc8e6c6512ea5"
+    },
+    {
+      "file": "lv-motors-product-range-flyer-061223.pdf",
+      "title": "Low voltage motors - product range",
+      "url": "https://www.bharatbijlee.com/wp-content/uploads/2026/04/lv-motors-product-range-flyer-061223.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 3,
+      "doc_type": "brochure",
+      "category": "motors",
+      "subtype": "Low voltage motors - product range",
+      "sha256": "91a1960ccdbab2b46c30171a8fa39435698a189817a2b29bce1d870ef9f07312"
+    },
+    {
+      "file": "motors-mv-catalogue.pdf",
+      "title": "Medium voltage motors",
+      "url": "https://www.bharatbijlee.com/wp-content/uploads/2026/04/motors-mv-catalogue.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 6,
+      "doc_type": "catalogue",
+      "category": "motors",
+      "subtype": "Medium voltage motors",
+      "sha256": "0ce60bac3fd9a9ffbaea45752a5397ab740af904577f5626517a30b91489da6c"
+    },
+    {
+      "file": "bbl_craneduty.pdf",
+      "title": "Crane and hoist duty motors",
+      "url": "https://www.makhariaelectricals.net/assets/pdf/bbl_craneduty.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 15,
+      "doc_type": "catalogue",
+      "category": "motors",
+      "subtype": "Crane and hoist duty motors",
+      "sha256": "2658cde6036ccb5bc885393562000f5f43f7b29c7e281f566c426aa1bdccdc40"
+    },
+    {
+      "file": "project-brochure.pdf",
+      "title": "added from the corpus directory; the address was recovered later and serves these exact bytes",
+      "url": "https://www.bharatbijlee.com/wp-content/uploads/2026/04/projectbrochure.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 6,
+      "doc_type": "other",
+      "category": "motors",
+      "subtype": "",
+      "sha256": "839cdc41f7f9bda47f5e7f69b09cbfd3a0410c62a6a2ab5052287fe26cf55fd6"
+    }
+  ],
+  "category": "motors"
+}

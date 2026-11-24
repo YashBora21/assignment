@@ -1,0 +1,514 @@
+"""
+extraction.py -- Real LLM-powered extraction via llama-cpp-python.
+
+Anti-hallucination strategy:
+  - Chain-of-thought prompting (reason first, then format)
+  - Few-shot examples in prompts (concrete input->output)
+  - Explicit NOT_FOUND for missing fields
+  - Source citations required for every extraction
+  - Low temperature (0.05) + top_p + repeat_penalty for determinism
+"""
+
+from __future__ import annotations
+
+import json
+import logging
+import re
+import time
+import threading
+import sys
+import os
+from pathlib import Path
+from typing import Any, Dict, List, Optional
+
+from rapidfuzz import fuzz
+
+from tender_extraction.config import config
+from tender_extraction.schemas import Chunk
+
+logger = logging.getLogger(__name__)
+
+_llm_instance = None
+_llm_lock = threading.Lock()
+_api_semaphore = threading.Semaphore(5)
+
+_EOS = "</s>"
+
+_SPEC_SYSTEM = (
+    "You are a professional tender document analyst with 20 years of experience in procurement. "
+    "Your goal is to extract technical specifications with absolute precision. "
+    "Respond ONLY with a valid JSON object. No markdown, no pre-amble, no post-amble.\n"
+    "CRITICAL RULES:\n"
+    "1. VERBATIM EXTRACTION: Copy technical values, units, and tolerances EXACTLY as they appear in the source text.\n"
+    "2. EXHAUSTIVE: Extract EVERY specification found in the provided context. Do not summarize.\n"
+    "3. NO HALLUCINATION: If a value is not explicitly stated, do not guess. Set confidence below 0.3.\n"
+    "4. SOURCES: You MUST provide the exact 'exact_text' snippet from the document for every item.\n"
+    "5. COMPLEX SPECS: If multiple values belong to one component (e.g., 'Pump: 5HP, 2000 RPM'), group them in the 'specs' dictionary."
+)
+
+_SPEC_FEW_SHOT = (
+    'EXAMPLE INPUT:\n'
+    '"Section 4.1: Diesel Generator Set - 500 kVA rating, 1500 RPM, water cooled, '
+    'fuel consumption 75 L/hr at full load, noise level < 75 dB at 1m."\n\n'
+    'EXAMPLE OUTPUT:\n'
+    '{"technical_specifications": [{'
+    '"component": "Diesel Generator Set", '
+    '"specs": {"rating": "500 kVA", "speed": "1500 RPM", "cooling": "water cooled", '
+    '"fuel_consumption": "75 L/hr at full load", "noise_level": "< 75 dB at 1m"}, '
+    '"source": {"page": 12, "clause": "4.1", '
+    '"exact_text": "Diesel Generator Set - 500 kVA rating, 1500 RPM, water cooled"}, '
+    '"confidence": 0.98}]}'
+)
+
+_SPEC_INSTRUCTIONS = (
+    "Carefully analyze the following tender document chunks. "
+    "Identify every technical parameter, material requirement, and equipment specification.\n\n"
+    "{few_shot}\n\n"
+    "Format your output as a JSON object with a 'technical_specifications' list.\n"
+    "Each item MUST include:\n"
+    "- 'component': The name of the item or system.\n"
+    "- 'specs': A dictionary of parameters (e.g., {'Power': '5kW', 'Weight': '20kg'}).\n"
+    "- 'source': {'document': 'exact source filename', 'page': int, 'row': CSV row or null, 'chunk_id': 'source chunk ID', 'clause': 'string', 'exact_text': 'verbatim quote'}.\n"
+    "- 'confidence': A score from 0.0 to 1.0.\n\n"
+    "DOCUMENT CONTEXT:\n{context}"
+)
+
+_SCOPE_SYSTEM = (
+    "You are a professional tender document analyst. "
+    "Extract the Scope of Work accurately. Respond ONLY with valid JSON."
+)
+
+_SCOPE_FEW_SHOT = (
+    'EXAMPLE INPUT:\n'
+    '"The contractor shall perform site preparation, supply and install all equipment '
+    'at Building A, and commission the system within 90 days. '
+    'Civil work is excluded from vendor scope. Ref: Clause 2."\n\n'
+    'EXAMPLE OUTPUT:\n'
+    '{"scope_of_work": {'
+    '"summary": "Site preparation, supply, installation and commissioning of equipment at Building A within 90 days.", '
+    '"deliverables": ["Site preparation", "Supply and install all equipment", "Commission the system"], '
+    '"exclusions": ["Civil work is excluded from vendor scope"], '
+    '"locations": ["Building A"], '
+    '"references": ["Clause 2"]}}'
+)
+
+_SCOPE_INSTRUCTIONS = (
+    "Analyze the tender text and extract the formal Scope of Work.\n\n"
+    "{few_shot}\n\n"
+    "Return a JSON object with 'scope_of_work' containing:\n"
+    "- 'summary': A high-level description (copy key sentences).\n"
+    "- 'deliverables': A list of specific items to be supplied/done.\n"
+    "- 'exclusions': Items explicitly mentioned as NOT part of the contract.\n"
+    "- 'locations': Sites, cities, or buildings mentioned.\n"
+    "- 'references': Clause numbers related to scope.\n\n"
+    "CONTEXT:\n{context}"
+)
+
+_QA_SYSTEM = (
+    "You answer questions about one tender document using ONLY the provided evidence. "
+    "If the answer is not explicitly supported, say that it is not found in the document. "
+    "Return ONLY valid JSON."
+)
+
+_QA_INSTRUCTIONS = (
+    'Return ONLY valid JSON with keys "answer", "citations", and "confidence".\n'
+    '- "answer": clear, grounded answer in plain English. If asked about requirements, specifications, or scope, list SPECIFIC parameters and numbers, do not use generic summaries. Use bullet points if there are multiple items.\n'
+    '- "citations": array of objects with "document", "page", "row" (CSV only, otherwise null), "chunk_id", and "quote". Copy source identities from the evidence. Use up to 3 citations.\n'
+    '- "confidence": one of "HIGH", "MEDIUM", "LOW" (MUST BE IN QUOTES).\n\n'
+    'EXAMPLE OUTPUT:\n'
+    '{\n'
+    '  "answer": "The main technical requirements are:\\n- Voltage: 220V\\n- Power: 500kW\\n- Material: Stainless Steel 304",\n'
+    '  "citations": [{"page": 4, "chunk_id": "chunk_0", "quote": "System must operate at 220V, 500kW and be constructed of Stainless Steel 304."}],\n'
+    '  "confidence": "HIGH"\n'
+    '}\n\n'
+    'If the answer is not present, set "answer" to "NOT_FOUND in provided document context" and use an empty citations array.\n\n'
+    'QUESTION:\n{question}\n\n'
+    'DOCUMENT TOPIC:\n{topic}\n\n'
+    'DOCUMENT EVIDENCE:\n{context}'
+)
+
+
+def _count_tokens(text: str) -> int:
+    try:
+        import tiktoken
+        enc = tiktoken.get_encoding(config.chunking.tiktoken_model)
+        return len(enc.encode(text))
+    except Exception:
+        return max(1, len(text) // 4)
+
+
+_PROMPT_OVERHEAD_TOKENS = 750
+
+
+def _context_budget() -> int:
+    return max(512, config.llm.n_ctx - config.llm.max_tokens - _PROMPT_OVERHEAD_TOKENS)
+
+
+def _split_into_batches(
+    retrieved_chunks: List[Dict[str, Any]],
+    budget: Optional[int] = None,
+) -> List[List[Dict[str, Any]]]:
+    batch_budget = budget if budget is not None else _context_budget()
+    batches: List[List[Dict[str, Any]]] = []
+    current_batch: List[Dict[str, Any]] = []
+    current_tokens = 0
+
+    for item in retrieved_chunks:
+        chunk_tokens = _count_tokens(item["chunk"].text)
+        if current_tokens + chunk_tokens > batch_budget and current_batch:
+            batches.append(current_batch)
+            current_batch = [item]
+            current_tokens = chunk_tokens
+        else:
+            current_batch.append(item)
+            current_tokens += chunk_tokens
+
+    if current_batch:
+        batches.append(current_batch)
+
+    return batches
+
+
+class LLMProgressIndicator:
+    def __init__(self, message: str = "LLM generating"):
+        self.message = message
+        self.running = False
+        self.thread = None
+        self.start_time = None
+
+    def _run(self):
+        chars = "|/-\\"
+        i = 0
+        while self.running:
+            elapsed = time.time() - self.start_time
+            sys.stderr.write(
+                f"\r  {chars[i % len(chars)]} {self.message}... ({elapsed:.0f}s)"
+            )
+            sys.stderr.flush()
+            time.sleep(0.1)
+            i += 1
+        sys.stderr.write(f"\r  * {self.message} complete.          \n")
+        sys.stderr.flush()
+
+    def __enter__(self):
+        self.running = True
+        self.start_time = time.time()
+        self.thread = threading.Thread(target=self._run, daemon=True)
+        self.thread.start()
+        return self
+
+    def __exit__(self, *args):
+        self.running = False
+        self.thread.join()
+
+
+def load_model():
+    global _llm_instance
+    if _llm_instance is not None:
+        return _llm_instance
+
+    with _llm_lock:
+        if _llm_instance is not None:
+            return _llm_instance
+
+        if config.llm.provider == "groq":
+            if not config.llm.api_key:
+                raise RuntimeError("GROQ_API_KEY is required when LLM_PROVIDER=groq.")
+            from openai import OpenAI
+
+            _llm_instance = OpenAI(
+                api_key=config.llm.api_key,
+                base_url=config.llm.base_url,
+            )
+            return _llm_instance
+        if config.llm.provider != "local":
+            raise ValueError(f"Unsupported LLM_PROVIDER: {config.llm.provider}")
+
+        _prepare_llama_dll_paths()
+        from llama_cpp import Llama, llama_cpp
+
+        model_path = config.llm.model_path
+        if not Path(model_path).exists():
+            raise RuntimeError(f"LLM model not found at: {model_path}")
+
+        supports_gpu_offload = bool(llama_cpp.llama_supports_gpu_offload())
+        if config.llm.require_gpu and not supports_gpu_offload:
+            logger.warning(
+                "llama-cpp-python was loaded without GPU offload support; "
+                "the text model will run on CPU until a CUDA-enabled build is installed."
+            )
+        n_gpu_layers = config.llm.n_gpu_layers if supports_gpu_offload else 0
+        logger.info(
+            "Loading text model %s with %s",
+            Path(model_path).name,
+            "GPU offload" if n_gpu_layers != 0 else "CPU-only inference",
+        )
+        _llm_instance = Llama(
+            model_path=model_path,
+            n_ctx=config.llm.n_ctx,
+            n_gpu_layers=n_gpu_layers,
+            n_threads=config.llm.n_threads,
+            use_mmap=False,  # Fix for 'PrefetchVirtualMemory unavailable' on Windows
+            verbose=False
+        )
+    return _llm_instance
+
+
+def _prepare_llama_dll_paths() -> None:
+    if os.name != "nt":
+        return
+    try:
+        import ctypes
+        import site
+        for base in site.getsitepackages() + [os.path.join(sys.prefix, "Lib", "site-packages")]:
+            for rel in (os.path.join("llama_cpp", "lib"), "nvidia/cublas/bin", "nvidia/cuda_runtime/bin"):
+                dll_dir = os.path.join(base, rel)
+                if os.path.isdir(dll_dir):
+                    os.add_dll_directory(dll_dir)
+    except Exception:
+        pass
+
+def _get_json_grammar():
+    return None
+
+
+def _repair_json(raw: str) -> str:
+    if not raw:
+        return raw
+    raw = re.sub(r"```(?:json)?", "", raw).strip()
+    start = raw.find("{")
+    end = raw.rfind("}")
+    if start != -1 and end != -1:
+        candidate = raw[start:end+1]
+        try:
+            json.loads(candidate)
+            return candidate
+        except json.JSONDecodeError:
+            def escape_newlines(match):
+                return match.group(0).replace("\n", "\\n")
+            candidate = re.sub(r'"[^"]*"', escape_newlines, candidate, flags=re.DOTALL)
+            try:
+                json.loads(candidate)
+                return candidate
+            except json.JSONDecodeError:
+                pass
+    return raw
+
+
+def _salvage_json_objects(raw: str, array_key: str) -> List[Dict[str, Any]]:
+    key_pos = raw.find(f'"{array_key}"')
+    if key_pos == -1: return []
+    array_start = raw.find("[", key_pos)
+    if array_start == -1: return []
+    recovered = []
+    depth = 0
+    object_start = None
+    for idx in range(array_start, len(raw)):
+        char = raw[idx]
+        if char == "{":
+            if depth == 0: object_start = idx
+            depth += 1
+        elif char == "}" and depth > 0:
+            depth -= 1
+            if depth == 0 and object_start is not None:
+                try:
+                    recovered.append(json.loads(raw[object_start:idx+1]))
+                except:
+                    pass
+                object_start = None
+    return recovered
+
+
+def extract_specifications(retrieved_chunks: List[Dict[str, Any]], topic: str = "") -> List[Dict[str, Any]]:
+    llm = load_model()
+    batches = _split_into_batches(retrieved_chunks)
+    all_specs = []
+    for batch_idx, batch in enumerate(batches):
+        context = _build_context(batch)
+        prompt = build_spec_prompt(context, topic)
+        raw = _call_llm(llm, prompt, f"Extracting specs ({batch_idx+1}/{len(batches)})")
+        repaired = _repair_json(raw)
+        try:
+            parsed = json.loads(repaired)
+            specs = parsed.get("technical_specifications", [])
+            if isinstance(specs, list): all_specs.extend(specs)
+        except:
+            all_specs.extend(_salvage_json_objects(repaired, "technical_specifications"))
+    
+    seen = set()
+    deduped = []
+    for s in all_specs:
+        specs_map = s.get("specs") or {}
+        key = (
+            (s.get("component") or "").strip().lower(),
+            tuple(sorted((str(k), str(v)) for k, v in specs_map.items())),
+        )
+        if key in seen:
+            continue
+        seen.add(key)
+        deduped.append(s)
+    return deduped
+
+
+def extract_scope_of_work(retrieved_chunks: List[Dict[str, Any]], topic: str = "") -> Dict[str, Any]:
+    empty = {"summary": "", "deliverables": [], "exclusions": [], "locations": [], "references": []}
+    llm = load_model()
+    batches = _split_into_batches(retrieved_chunks)
+    merged = dict(empty)
+    for batch_idx, batch in enumerate(batches):
+        context = _build_context(batch)
+        prompt = build_scope_prompt(context, topic)
+        raw = _call_llm(llm, prompt, f"Extracting scope ({batch_idx+1}/{len(batches)})")
+        try:
+            parsed = json.loads(_repair_json(raw))
+            scope = parsed.get("scope_of_work", parsed)
+            if not isinstance(scope, dict): continue
+            if not merged["summary"]: merged["summary"] = scope.get("summary", "")
+            for k in ("deliverables", "exclusions", "locations", "references"):
+                for item in scope.get(k, []):
+                    if item and item not in merged[k]: merged[k].append(item)
+        except: continue
+    return merged
+
+
+def build_spec_prompt(context: str, topic: str = "") -> str:
+    topic_hint = f"Tender Topic: {topic}\n\n" if topic else ""
+    user_msg = topic_hint + _SPEC_INSTRUCTIONS.replace("{few_shot}", _SPEC_FEW_SHOT).replace("{context}", context)
+    return _build_mistral_prompt(_SPEC_SYSTEM, user_msg)
+
+def build_scope_prompt(context: str, topic: str = "") -> str:
+    topic_hint = f"Tender Topic: {topic}\n\n" if topic else ""
+    user_msg = topic_hint + _SCOPE_INSTRUCTIONS.replace("{few_shot}", _SCOPE_FEW_SHOT).replace("{context}", context)
+    return _build_mistral_prompt(_SCOPE_SYSTEM, user_msg)
+
+def build_qa_prompt(question: str, context: str, topic: str = "") -> str:
+    user_msg = _QA_INSTRUCTIONS.replace("{question}", question).replace("{topic}", topic or "N/A").replace("{context}", context)
+    return _build_mistral_prompt(_QA_SYSTEM, user_msg)
+
+
+def _build_mistral_prompt(system_message: str, user_message: str) -> List[Dict[str, str]]:
+    return [
+        {"role": "system", "content": system_message},
+        {"role": "user", "content": user_message},
+    ]
+
+def answer_question(retrieved_chunks: List[Dict[str, Any]], question: str, topic: str = "") -> Dict[str, Any]:
+    if not retrieved_chunks: return {"answer": "NOT_FOUND", "citations": [], "confidence": "LOW"}
+    llm = load_model()
+    context = _build_context(retrieved_chunks[:8])
+    prompt = build_qa_prompt(question, context, topic)
+    raw = _call_llm(llm, prompt, "Answering")
+    try:
+        # Pre-fix common unquoted confidence issues before parsing
+        import re
+        fixed_raw = re.sub(r'"confidence"\s*:\s*(HIGH|MEDIUM|LOW)\b', r'"confidence": "\1"', raw, flags=re.IGNORECASE)
+        # Attempt to append missing braces if truncated
+        if fixed_raw.count('{') > fixed_raw.count('}'):
+            fixed_raw += '}'
+            
+        parsed = json.loads(_repair_json(fixed_raw))
+        return parsed
+    except Exception as e:
+        logger.warning("QA JSON parse failed: %s. Raw: %s", e, raw)
+        # Fallback: heavily robust regex extraction for all fields
+        import re
+        
+        # 1. Answer text
+        ans_match = re.search(r'"answer"\s*:\s*"((?:\\.|[^"\\])*)"', raw)
+        answer_text = ans_match.group(1).replace('\\"', '"').replace('\\n', '\n') if ans_match else raw
+        
+        # 2. Citations
+        citations = []
+        for cit_match in re.finditer(r'\{\s*"page"\s*:\s*(\d+).*?"quote"\s*:\s*"((?:\\.|[^"\\])*)"', raw, flags=re.DOTALL):
+            page = int(cit_match.group(1))
+            quote = cit_match.group(2).replace('\\"', '"').replace('\\n', '\n')
+            citations.append({"page": page, "chunk_id": None, "quote": quote})
+            
+        # 3. Confidence
+        conf_match = re.search(r'"confidence"\s*:\s*"?([A-Za-z]+)"?', raw)
+        confidence = "LOW"
+        if conf_match and conf_match.group(1).upper() in ("HIGH", "MEDIUM", "LOW"):
+            confidence = conf_match.group(1).upper()
+            
+        return {"answer": answer_text, "citations": citations, "confidence": confidence}
+
+def _build_context(retrieved_chunks: List[Dict[str, Any]]) -> str:
+    if not retrieved_chunks: return ""
+    deduped = _deduplicate_chunks(retrieved_chunks)
+    deduped.sort(key=lambda x: (x["chunk"].metadata.page, x.get("score", 0)))
+    parts = []
+    current_sec = None
+    for item in deduped:
+        chunk = item["chunk"]
+        if chunk.metadata.section != current_sec:
+            current_sec = chunk.metadata.section
+            if current_sec and current_sec not in ("Unknown", "Table"):
+                parts.append(f"\n[Section: {current_sec}]")
+        provenance = ""
+        if chunk.metadata.document:
+            provenance = f" [document={chunk.metadata.document}; role={chunk.metadata.role}; chunk_id={chunk.chunk_id}"
+            if chunk.metadata.row is not None:
+                provenance += f"; CSV row={chunk.metadata.row}"
+            provenance += "]"
+        parts.append(f"[p.{chunk.metadata.page}]{provenance} {chunk.text}")
+    return "\n\n".join(parts)
+
+def _deduplicate_chunks(chunks: List[Dict[str, Any]], threshold: float = 80.0) -> List[Dict[str, Any]]:
+    if len(chunks) <= 1: return chunks
+    result, seen = [], []
+    for item in sorted(chunks, key=lambda x: x.get("score", 0), reverse=True):
+        if item["chunk"].metadata.document:
+            # Repeated headers on different files/pages/rows are distinct evidence.
+            if not any(existing["chunk"].chunk_id == item["chunk"].chunk_id for existing in result):
+                result.append(item)
+            continue
+        text = item["chunk"].text[:200].lower()
+        if not any(fuzz.ratio(text, s) >= threshold for s in seen):
+            result.append(item)
+            seen.append(text)
+    return result
+
+def _call_llm(llm, prompt: List[Dict[str, str]], msg: str = "LLM generating") -> str:
+    for attempt in range(1, config.llm.max_retries + 1):
+        try:
+            gate = _llm_lock if config.llm.provider == "local" else _api_semaphore
+            with gate:
+                with LLMProgressIndicator(msg):
+                    if config.llm.provider == "groq":
+                        res = llm.chat.completions.create(
+                            model=config.llm.model,
+                            messages=prompt,
+                            max_completion_tokens=config.llm.max_tokens,
+                            temperature=config.llm.temperature,
+                            top_p=config.llm.top_p,
+                            reasoning_effort="low",
+                            response_format={"type": "json_object"},
+                        )
+                        return (res.choices[0].message.content or "").strip()
+                    mistral_prompt = (
+                        f"<s>[INST] {prompt[0]['content']}\n\n"
+                        f"{prompt[1]['content']} [/INST]"
+                    )
+                    res = llm(
+                        mistral_prompt,
+                        max_tokens=config.llm.max_tokens,
+                        temperature=config.llm.temperature,
+                        top_p=config.llm.top_p,
+                        repeat_penalty=config.llm.repeat_penalty,
+                        stop=[_EOS],
+                    )
+            return res["choices"][0]["text"].strip()
+        except Exception as e:
+            if attempt == config.llm.max_retries: raise
+            delay = min(60.0, 5.0 * (2 ** attempt))
+            resp = getattr(e, "response", None)
+            if resp is not None:
+                try:
+                    delay = max(delay, float(resp.headers.get("retry-after", 0)))
+                except Exception:
+                    pass
+            time.sleep(delay)
+    return ""
+
+if __name__ == "__main__":
+    pass

@@ -1,0 +1,56 @@
+
+models/
+
+# Python virtual environments
+venv/
+venv312/
+.venv/
+
+# Python cache/build artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+
+# Frontend build artifacts
+frontend/dist/
+frontend/node_modules/
+
+# Generated evaluation and project reports
+outputs/
+
+# Runtime job index / caches (keep the folder, ignore the state)
+state/
+outputs/jobs_state.json
+
+# Diagnostic leftovers from earlier runs
+_diag*/
+_test_qdrant_*/
+
+# Local databases
+*.sqlite3
+*.db
+
+# API Keys and Secrets
+.env
+.env.*
+!.env.example
+
+# Uploads and temporary data
+uploads/
+qdrant_storage/
+_test_qdrant_db/
+company_profile.json
+node_modules/
+.pytest_cache/
+outputs/
+
+# Manufacturer corpus binaries (sources.json provenance manifests stay tracked)
+data/manufacturers/**/*.pdf
+data/manufacturers/**/*.docx
+data/manufacturers/**/*.jpg
+data/manufacturers/**/*.jpeg
+data/manufacturers/**/*.png

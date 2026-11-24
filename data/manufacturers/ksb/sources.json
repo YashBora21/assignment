@@ -1,0 +1,29 @@
+{
+  "manufacturer": "ksb",
+  "display_name": "KSB",
+  "documents": [
+    {
+      "file": "KSB-Etanorm-L.pdf",
+      "title": "Etanorm",
+      "url": "https://www.lenntech.com/Data-sheets/KSB-Etanorm-L.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 40,
+      "doc_type": "datasheet",
+      "category": "pumps",
+      "subtype": "Etanorm",
+      "sha256": "e1c8fcc48094550ad9fcd0ab1eabddfc6fc834c487a3a65d64254a94f587c9de"
+    },
+    {
+      "file": "ksb-industrial-hot-oil-thermal-fluids-brochure-2026.pdf",
+      "title": "Etanorm SYT",
+      "url": "https://www.puffer.com/getattachment/0da620c0-4550-4b75-a098-c103106f732d/ksb-industrial-hot-oil-thermal-fluids-brochure-2026.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 12,
+      "doc_type": "brochure",
+      "category": "pumps",
+      "subtype": "Etanorm SYT",
+      "sha256": "454ba002dcd0fc48b4c288219b4fb2a6ef6e5c3e71e16ef832fd6f229b8d8642"
+    }
+  ],
+  "category": "pumps"
+}

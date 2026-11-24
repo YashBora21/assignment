@@ -1,0 +1,18 @@
+{
+  "manufacturer": "xylem-godwin",
+  "display_name": "Xylem Godwin",
+  "documents": [
+    {
+      "file": "godwin_product_catalog_us17.pdf",
+      "title": "Godwin dewatering pumps",
+      "url": "https://www.xylem.com/siteassets/brand/godwin/resources/brochure/godwin_product_catalog_us17.pdf",
+      "retrieved_at": "2026-10-22",
+      "pages": 44,
+      "doc_type": "catalogue",
+      "category": "pumps",
+      "subtype": "Godwin dewatering pumps",
+      "sha256": "97651b22809e67086e9d3383496a4879669d4124565cfccdaade34e654e65160"
+    }
+  ],
+  "category": "pumps"
+}

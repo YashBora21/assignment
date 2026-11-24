@@ -1,0 +1,18 @@
+{
+  "manufacturer": "replace-with-directory-slug",
+  "display_name": "Replace with display name",
+  "category": "valves",
+  "documents": [
+    {
+      "file": "replace-with-file.pdf",
+      "title": "Document title",
+      "url": "https://example.com/replace-with-source.pdf",
+      "retrieved_at": "2026-11-18",
+      "pages": 1,
+      "doc_type": "datasheet",
+      "category": "valves",
+      "subtype": "butterfly valve",
+      "sha256": ""
+    }
+  ]
+}

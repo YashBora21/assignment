@@ -1,0 +1,51 @@
+{
+  "manufacturer": "intervalve-poonawalla",
+  "display_name": "Intervalve Poonawalla",
+  "documents": [
+    {
+      "file": "intervalve-wafer-type-swing-check-valve.pdf",
+      "title": "Wafer-type swing check valve (IVC / IVCT)",
+      "url": "https://5.imimg.com/data5/SELLER/Doc/2023/4/302651538/JJ/AR/JF/7369423/intervalve-wafer-type-swing-check-valve.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 2,
+      "doc_type": "datasheet",
+      "category": "valves",
+      "subtype": "Wafer-type swing check valve (IVC / IVCT)",
+      "sha256": "c0f230b2f31ac60b4dab2592f0fb150e8be4956a7fe439464571e31d11529d98"
+    },
+    {
+      "file": "PED-Module-H-Ball-Valve.pdf",
+      "title": "Ball valve (PED Module H)",
+      "url": "https://www.intervalvepoonawalla.com/wp-content/uploads/2024/02/PED-Module-H-Ball-Valve.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 3,
+      "doc_type": "other",
+      "category": "valves",
+      "subtype": "Ball valve (PED Module H)",
+      "sha256": "8a34ab3287f019b97bb8767bb96acd35591d211d7f1eeff1cd6bcf2e5e68c80a"
+    },
+    {
+      "file": "PRODUCT-PORTFOLIO_REV-0.pdf",
+      "title": "Valve product portfolio (butterfly, ball, gate, globe, check)",
+      "url": "https://www.intervalvepoonawalla.com/wp-content/uploads/2024/09/PRODUCT-PORTFOLIO_REV-0.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 12,
+      "doc_type": "catalogue",
+      "category": "valves",
+      "subtype": "Valve product portfolio (butterfly, ball, gate, globe, check)",
+      "sha256": "1dde16dd4116244e98678d1bb6d458502206d1c1c017d06883e41b4db2c2dadf"
+    },
+    {
+      "file": "IV_General_Catalogue.pdf",
+      "title": "Valve and Elomatic actuator range",
+      "url": "https://www.pushkarnasales.com/pdf/INTERVALVE-ELOMATIC/IV%20General%20Catalogue.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 6,
+      "doc_type": "catalogue",
+      "category": "valves",
+      "subtype": "Valve and Elomatic actuator range",
+      "sha256": "1591fe83b9be37c0beb2ae034a514840759ea8c86b675be9c6c382fe54cd3e34"
+    }
+  ],
+  "category": "valves"
+}

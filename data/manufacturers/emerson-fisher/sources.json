@@ -1,0 +1,51 @@
+{
+  "manufacturer": "emerson-fisher",
+  "display_name": "Emerson Fisher",
+  "documents": [
+    {
+      "file": "d103311x012.pdf",
+      "title": "Fisher D series",
+      "url": "https://www.emerson.com/is/content/emerson/en/final-control/flow-controls/documents/d103311x012.pdf",
+      "retrieved_at": "2026-10-22",
+      "pages": 4,
+      "doc_type": "datasheet",
+      "category": "valves",
+      "subtype": "Fisher D series",
+      "sha256": "e851bef4f853324e3153cc0d2e2c49b3811600902639df8db10560e45198e281"
+    },
+    {
+      "file": "d103554x012.pdf",
+      "title": "Fisher large ED/EWD ET/EWT",
+      "url": "https://www.emerson.com/is/content/emerson/en/final-control/flow-controls/documents/d103554x012.pdf",
+      "retrieved_at": "2026-10-22",
+      "pages": 20,
+      "doc_type": "datasheet",
+      "category": "valves",
+      "subtype": "Fisher large ED/EWD ET/EWT",
+      "sha256": "12760b61fab6f06afc68aaabcd2e35610872684bbab57812678c5f4201487211"
+    },
+    {
+      "file": "d352343x012.pdf",
+      "title": "Fisher globe valves",
+      "url": "https://www.emerson.com/is/content/emerson/en/final-control/flow-controls/documents/d352343x012.pdf",
+      "retrieved_at": "2026-10-22",
+      "pages": 4,
+      "doc_type": "catalogue",
+      "category": "valves",
+      "subtype": "Fisher globe valves",
+      "sha256": "0aaca3c3b38c936db34ef0739b6587e056d813649da01bd59e5f83421b7f3b86"
+    },
+    {
+      "file": "control-valve-handbook-en-3661206.pdf",
+      "title": "Control valve handbook",
+      "url": "https://www.emerson.com/is/content/emerson/en/final-control/flow-controls/valves/documents/control-valve-handbook-en-3661206.pdf",
+      "retrieved_at": "2026-10-22",
+      "pages": 355,
+      "doc_type": "catalogue",
+      "category": "valves",
+      "subtype": "Control valve handbook",
+      "sha256": "065494c0b705f6fd53abd5efa7ae1df644ba9cd80cb3b1da15be580ace1ec22c"
+    }
+  ],
+  "category": "valves"
+}

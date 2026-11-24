@@ -1,0 +1,282 @@
+{
+  "manufacturer": "delval-flow",
+  "display_name": "delval-flow",
+  "documents": [
+    {
+      "file": "1543271536-DelTorq-Series-2E-Electric-Actuator-Bulletin-2016.pdf",
+      "title": "product bulletin",
+      "url": "https://www.delvalflow.com/media/uploads/brochures/1543271536-DelTorq-Series-2E-Electric-Actuator-Bulletin-2016.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 4,
+      "doc_type": "brochure",
+      "category": "",
+      "subtype": "",
+      "sha256": "8cb50ae3171cbdc99e3926dea47d430df87cd4bb4fc111be83b6a2f4e1ffb5ed"
+    },
+    {
+      "file": "1560358485-Delval_Marine_v13.pdf",
+      "title": "product range catalogue",
+      "url": "https://www.delvalflow.com/media/uploads/brochures/1560358485-Delval_Marine_v13.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 4,
+      "doc_type": "catalogue",
+      "category": "",
+      "subtype": "",
+      "sha256": "c1ab516186ac6c1f4552864fa2fc12783a967cc3e7dd7bf986b2b4a97a7b0b69"
+    },
+    {
+      "file": "1578341740-DelVal-Series75-76.pdf",
+      "title": "product document",
+      "url": "https://www.delvalflow.com/media/uploads/brochures/1578341740-DelVal-Series75-76.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 6,
+      "doc_type": "other",
+      "category": "",
+      "subtype": "",
+      "sha256": "f0809141cef87d5fba4825104fccd126bb59a6ef4a370453dd5a2ee940cb7d7e"
+    },
+    {
+      "file": "1578581008-Water-Industry.pdf",
+      "title": "product range catalogue",
+      "url": "https://www.delvalflow.com/media/uploads/brochures/1578581008-Water-Industry.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 4,
+      "doc_type": "catalogue",
+      "category": "",
+      "subtype": "",
+      "sha256": "32d53ab9e5506d9a3e6f27fd8aa30a33638a058a1b6c84e136300bbca982f8f9"
+    },
+    {
+      "file": "1581090301-Mining-Industry-Brochure.pdf",
+      "title": "product range catalogue",
+      "url": "https://www.delvalflow.com/media/uploads/brochures/1581090301-Mining-Industry-Brochure.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 4,
+      "doc_type": "catalogue",
+      "category": "",
+      "subtype": "",
+      "sha256": "ef42955ec5d2c72cb539ee28eafd427e1cb5e56c3d6df8a90ca9358cfd2debfb"
+    },
+    {
+      "file": "1606142668-Automation_Series-83-Valve-Position-Monitor.pdf",
+      "title": "product document",
+      "url": "https://www.delvalflow.com/media/uploads/brochures/1606142668-Automation_Series-83-Valve-Position-Monitor.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 2,
+      "doc_type": "other",
+      "category": "",
+      "subtype": "",
+      "sha256": "26f517f53051b35bb3493840f4dd389dead1fa164fe28fb0ea99c640951b82c3"
+    },
+    {
+      "file": "1620420032-Series-65-sp-2019_v5.pdf",
+      "title": "product document",
+      "url": "https://www.delvalflow.com/media/uploads/brochures/1620420032-Series-65-sp-2019_v5.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 8,
+      "doc_type": "other",
+      "category": "",
+      "subtype": "",
+      "sha256": "dc6a9823dcd7950fb816eb05929b724e2eaad52459ee70bf0eaba1b0aee842e0"
+    },
+    {
+      "file": "1659475887-Series-21pt-2018.pdf",
+      "title": "product document",
+      "url": "https://www.delvalflow.com/media/uploads/brochures/1659475887-Series-21pt-2018.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 4,
+      "doc_type": "other",
+      "category": "",
+      "subtype": "",
+      "sha256": "58ac6b547d19f46b1e7770a87faa0c4cfd7755a5cd7cad3593932c55302024e8"
+    },
+    {
+      "file": "1659634039-Final-Series-51-53-v5b_04-08-2022.pdf",
+      "title": "product document",
+      "url": "https://www.delvalflow.com/media/uploads/brochures/1659634039-Final-Series-51-53-v5b_04-08-2022.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 8,
+      "doc_type": "other",
+      "category": "",
+      "subtype": "",
+      "sha256": "ff92efe41f28df10124a3cf9d08fd0c09e5d637d205880b84871cfb3ed403223"
+    },
+    {
+      "file": "1660775902-Final-_Series-5C-5D_2022_v3b_17-08-2022.pdf",
+      "title": "product document",
+      "url": "https://www.delvalflow.com/media/uploads/brochures/1660775902-Final-_Series-5C-5D_2022_v3b_17-08-2022.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 6,
+      "doc_type": "other",
+      "category": "",
+      "subtype": "",
+      "sha256": "399568da72908281dedf7c8d2a0cb66bfd7080e5a41dcb61e5fe0f22a5b768eb"
+    },
+    {
+      "file": "1666196831-Final-Series-56-57-M1c_10-10-2022.pdf",
+      "title": "product document",
+      "url": "https://www.delvalflow.com/media/uploads/brochures/1666196831-Final-Series-56-57-M1c_10-10-2022.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 8,
+      "doc_type": "other",
+      "category": "",
+      "subtype": "",
+      "sha256": "6ff268ef18162a2512aa251063855114a0f25db811275816a6bf8c2cc4a8676d"
+    },
+    {
+      "file": "1666196897-Final-Series-58-2022-M2_a1_10-10-2022.pdf",
+      "title": "product document",
+      "url": "https://www.delvalflow.com/media/uploads/brochures/1666196897-Final-Series-58-2022-M2_a1_10-10-2022.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 8,
+      "doc_type": "other",
+      "category": "",
+      "subtype": "",
+      "sha256": "79e32f46d6601f299e6a24dabb910caae021a48bddee7a64a9150319b4863c10"
+    },
+    {
+      "file": "1671729021-Technical-Bulletin---097-PRODUCT-SPECIFICATION-SERIES-44-49-HPBFV.pdf",
+      "title": "product specification bulletin",
+      "url": "https://www.delvalflow.com/media/uploads/brochures/1671729021-Technical-Bulletin---097-PRODUCT-SPECIFICATION-SERIES-44-49-HPBFV.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 2,
+      "doc_type": "datasheet",
+      "category": "",
+      "subtype": "",
+      "sha256": "c4d8e5eed32c851d64d6a81e22f70a423375f7d1e45dfbb879219513cd36149d"
+    },
+    {
+      "file": "1671729087-Technical-Bulletin---099-PRODUCT-SPECIFICATION-SERIES-51-53-CENTRIC-BFV.pdf",
+      "title": "product specification bulletin",
+      "url": "https://www.delvalflow.com/media/uploads/brochures/1671729087-Technical-Bulletin---099-PRODUCT-SPECIFICATION-SERIES-51-53-CENTRIC-BFV.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 2,
+      "doc_type": "datasheet",
+      "category": "",
+      "subtype": "",
+      "sha256": "71bc5d197bb288e11bf90a47cc5829110e68db748e7f1c80b1ef428ab5b06ab1"
+    },
+    {
+      "file": "1671729175-Technical-Bulletin---113-PRODUCT-SPECIFICATION-SERIES-75-76.pdf",
+      "title": "product specification bulletin",
+      "url": "https://www.delvalflow.com/media/uploads/brochures/1671729175-Technical-Bulletin---113-PRODUCT-SPECIFICATION-SERIES-75-76.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 2,
+      "doc_type": "datasheet",
+      "category": "",
+      "subtype": "",
+      "sha256": "4719ba72e007514dcb14e96e99e57135a0901b8fde36c66a2a200543cf2cda3b"
+    },
+    {
+      "file": "1677871435-Final-Actuator-25-metirc-2022_v5_27-02-2023.pdf",
+      "title": "product document",
+      "url": "https://www.delvalflow.com/media/uploads/brochures/1677871435-Final-Actuator-25-metirc-2022_v5_27-02-2023.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 8,
+      "doc_type": "other",
+      "category": "",
+      "subtype": "",
+      "sha256": "560c0b57e65214851ef9148900070f339a6edd9cefb5569499f2471c8e4c4820"
+    },
+    {
+      "file": "1692719045-Technical-Bulletin---118-PRODUCT-SPECIFICATION-SERIES-7-8-R1.pdf",
+      "title": "product specification bulletin",
+      "url": "https://www.delvalflow.com/media/uploads/brochures/1692719045-Technical-Bulletin---118-PRODUCT-SPECIFICATION-SERIES-7-8-R1.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 3,
+      "doc_type": "datasheet",
+      "category": "",
+      "subtype": "",
+      "sha256": "c63b4a190f253c7a88d3ec09130ff4a11d42e800d1545737c1193184912ee4d8"
+    },
+    {
+      "file": "1692719501-Technical-Bulletin---117-PRODUCT-SPECIFICATION-SERIES-65-72-BLV-R1.pdf",
+      "title": "product specification bulletin",
+      "url": "https://www.delvalflow.com/media/uploads/brochures/1692719501-Technical-Bulletin---117-PRODUCT-SPECIFICATION-SERIES-65-72-BLV-R1.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 2,
+      "doc_type": "datasheet",
+      "category": "",
+      "subtype": "",
+      "sha256": "c7ae863425511c317bc70067513e65c12ebe9cbda55d5b27fe4770964fbc874f"
+    },
+    {
+      "file": "1692719700-Technical-Bulletin---098-R1-PRODUCT-SPECIFICATION-SERIES-50-52-CENTRIC-BFV.pdf",
+      "title": "product specification bulletin",
+      "url": "https://www.delvalflow.com/media/uploads/brochures/1692719700-Technical-Bulletin---098-R1-PRODUCT-SPECIFICATION-SERIES-50-52-CENTRIC-BFV.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 2,
+      "doc_type": "datasheet",
+      "category": "",
+      "subtype": "",
+      "sha256": "8b95bfa0e98b21227ccc7e2d0ab659ad00de08f4cb57cd916ff15dda089507db"
+    },
+    {
+      "file": "1692721463-Technical-Bulletin---133-PRODUCT-SPECIFICATION-SERIES-56_57-CENTRIC-BFV.pdf",
+      "title": "product specification bulletin",
+      "url": "https://www.delvalflow.com/media/uploads/brochures/1692721463-Technical-Bulletin---133-PRODUCT-SPECIFICATION-SERIES-56_57-CENTRIC-BFV.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 2,
+      "doc_type": "datasheet",
+      "category": "",
+      "subtype": "",
+      "sha256": "0c25efba7ba7738aa4f89149243bd1278eaba52a73ff34514c42ffc2c6596227"
+    },
+    {
+      "file": "1692721512-Technical-Bulletin---114-PRODUCT-SPECIFICATION-SERIES-58-CENTRIC-BFV.pdf",
+      "title": "product specification bulletin",
+      "url": "https://www.delvalflow.com/media/uploads/brochures/1692721512-Technical-Bulletin---114-PRODUCT-SPECIFICATION-SERIES-58-CENTRIC-BFV.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 2,
+      "doc_type": "datasheet",
+      "category": "",
+      "subtype": "",
+      "sha256": "2669a894a8c8684e57e0455d9032a648e0f3cb9ce6f3adaca4f9c2341fb9ece7"
+    },
+    {
+      "file": "1692721554-Technical-Bulletin---115-PRODUCT-SPECIFICATION-SERIES-59-CENTRIC-BFV.pdf",
+      "title": "product specification bulletin",
+      "url": "https://www.delvalflow.com/media/uploads/brochures/1692721554-Technical-Bulletin---115-PRODUCT-SPECIFICATION-SERIES-59-CENTRIC-BFV.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 2,
+      "doc_type": "datasheet",
+      "category": "",
+      "subtype": "",
+      "sha256": "0a77bd463f80821752073fc991348e7e1a2774ed1d3167f0dae8a0921960d7f8"
+    },
+    {
+      "file": "1692721608-Technical-Bulletin---139-PRODUCT-SPECIFICATION-SERIES-83-series.pdf",
+      "title": "product specification bulletin",
+      "url": "https://www.delvalflow.com/media/uploads/brochures/1692721608-Technical-Bulletin---139-PRODUCT-SPECIFICATION-SERIES-83-series.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 2,
+      "doc_type": "datasheet",
+      "category": "",
+      "subtype": "",
+      "sha256": "3826d7000f116d4898b9c699b3762252399ee076cc2b3bf6a1cc677a2a586937"
+    },
+    {
+      "file": "1692721686-Technical-Bulletin---135-PRODUCT-SPECIFICATION-SERIES-5C-5D-CENTRIC-BFV.pdf",
+      "title": "product specification bulletin",
+      "url": "https://www.delvalflow.com/media/uploads/brochures/1692721686-Technical-Bulletin---135-PRODUCT-SPECIFICATION-SERIES-5C-5D-CENTRIC-BFV.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 2,
+      "doc_type": "datasheet",
+      "category": "",
+      "subtype": "",
+      "sha256": "4662a3ae3327332ae5f761faa4d8607e1e9288e60d287b5b4560736071d399c4"
+    },
+    {
+      "file": "1692721738-Technical-Bulletin---134-PRODUCT-SPECIFICATION-SERIES-40-41-CENTRIC-BFV.pdf",
+      "title": "product specification bulletin",
+      "url": "https://www.delvalflow.com/media/uploads/brochures/1692721738-Technical-Bulletin---134-PRODUCT-SPECIFICATION-SERIES-40-41-CENTRIC-BFV.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 2,
+      "doc_type": "datasheet",
+      "category": "",
+      "subtype": "",
+      "sha256": "0f9762be22ae4f11dfb8490d0112277b62aee8a75cebcca82d16642b7f10afdd"
+    }
+  ],
+  "category": "valves"
+}

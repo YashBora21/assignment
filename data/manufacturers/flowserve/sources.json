@@ -1,0 +1,40 @@
+{
+  "manufacturer": "flowserve",
+  "display_name": "Flowserve",
+  "documents": [
+    {
+      "file": "FCENBR00002_EN_A4.pdf",
+      "title": "Control valves",
+      "url": "https://www.flowserve.com/sites/default/files/dam/documents/FCENBR00002_EN_A4.pdf",
+      "retrieved_at": "2026-10-22",
+      "pages": 36,
+      "doc_type": "catalogue",
+      "category": "valves",
+      "subtype": "Control valves",
+      "sha256": "1425ea3b87e6c9d7fca64d9f84e2062b2622aa84de4f1f350f6a29c1a11c432a"
+    },
+    {
+      "file": "VLENTB0300_EN_A4.pdf",
+      "title": "Valtek GS",
+      "url": "https://www.flowserve.com/sites/default/files/dam/documents/VLENTB0300_EN_A4.pdf",
+      "retrieved_at": "2026-10-22",
+      "pages": 16,
+      "doc_type": "datasheet",
+      "category": "valves",
+      "subtype": "Valtek GS",
+      "sha256": "2e6c2116588b74fa11e89d22baf50f37ece6a6ab133518bfa089b703afd917ee"
+    },
+    {
+      "file": "WCENBR0001_EN_AQ.pdf",
+      "title": "Worcester controls",
+      "url": "https://www.flowserve.com/sites/default/files/dam/documents/WCENBR0001_EN_AQ.pdf",
+      "retrieved_at": "2026-10-22",
+      "pages": 16,
+      "doc_type": "catalogue",
+      "category": "valves",
+      "subtype": "Worcester controls",
+      "sha256": "be1dd0d40e0768bca9e5d7c457e47fb973662d77ee11d3a601c53d61fb5d2a9b"
+    }
+  ],
+  "category": "valves"
+}

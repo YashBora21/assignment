@@ -1,0 +1,84 @@
+{
+  "manufacturer": "valmatic",
+  "display_name": "Valmatic",
+  "category": "valves",
+  "documents": [
+    {
+      "file": "VM-4700-S_9-21-20.pdf",
+      "title": "added from the corpus directory; the address was recovered later and serves these exact bytes",
+      "url": "https://www.valmatic.com/Portals/0/drawings/VM-4700-S_9-21-20.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 2,
+      "doc_type": "datasheet",
+      "category": "valves",
+      "subtype": "",
+      "sha256": "612f68def6f567cf644baae2c5e6ab5bf58c7a8a40be21817fa852b441fc78d6"
+    },
+    {
+      "file": "VMC-4702A1L_11-18-14.pdf",
+      "title": "added from the corpus directory; the address was recovered later and serves these exact bytes",
+      "url": "https://www.valmatic.com/Portals/0/drawings/VMC-4702A1L_11-18-14.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 1,
+      "doc_type": "other",
+      "category": "valves",
+      "subtype": "",
+      "sha256": "de1fa3e9d15052b448567a15b4ab22db822ab68dcab727c61d0af5244573eeaf"
+    },
+    {
+      "file": "VMC-4702A3L_11-18-14.pdf",
+      "title": "added from the corpus directory; the address was recovered later and serves these exact bytes",
+      "url": "https://www.valmatic.com/Portals/0/drawings/VMC-4702A3L_11-18-14.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 1,
+      "doc_type": "other",
+      "category": "valves",
+      "subtype": "",
+      "sha256": "52e8c0b158134643d1c6c737696b4a0faf2d6e1e47858f8ad78c602f7720d56e"
+    },
+    {
+      "file": "VMC-4702A6L_11-18-14.pdf",
+      "title": "added from the corpus directory; the address was recovered later and serves these exact bytes",
+      "url": "https://www.valmatic.com/Portals/0/drawings/VMC-4702A6L_11-18-14.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 1,
+      "doc_type": "other",
+      "category": "valves",
+      "subtype": "",
+      "sha256": "fc735d311c8b35a0fe886e5afa79a3d9c0dbf5e45c801592076ccd909f454237"
+    },
+    {
+      "file": "VMC-4702A9L-A9W_11-18-14.pdf",
+      "title": "added from the corpus directory; the address was recovered later and serves these exact bytes",
+      "url": "https://www.valmatic.com/Portals/0/drawings/VMC-4702A9L-A9W_11-18-14.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 1,
+      "doc_type": "other",
+      "category": "valves",
+      "subtype": "",
+      "sha256": "0f14fecccc76f0a2c9ecf12feaf13a41541c3c5f52067bdaf901261d1bca2453"
+    },
+    {
+      "file": "VMC-4702AAL-AAW_11-18-14.pdf",
+      "title": "added from the corpus directory; the address was recovered later and serves these exact bytes",
+      "url": "https://www.valmatic.com/Portals/0/drawings/VMC-4702AAL-AAW_11-18-14.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 1,
+      "doc_type": "other",
+      "category": "valves",
+      "subtype": "",
+      "sha256": "3ecddc89e03aa4087cb71a0dc0398f88318b7ffc8f3b0a5771bb93ee7ab9fe27"
+    },
+    {
+      "file": "VMC-4702ABL-ABW_11-18-14.pdf",
+      "title": "added from the corpus directory; the address was recovered later and serves these exact bytes",
+      "url": "https://www.valmatic.com/Portals/0/drawings/VMC-4702ABL-ABW_11-18-14.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 1,
+      "doc_type": "other",
+      "category": "valves",
+      "subtype": "",
+      "sha256": "5761aeefc67108739f51e84a5b8384fc0f5fc850b696e80d6bcfc77ac212c52b"
+    }
+  ]
+}

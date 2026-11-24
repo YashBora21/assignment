@@ -1,0 +1,18 @@
+{
+  "manufacturer": "sulzer",
+  "display_name": "sulzer",
+  "documents": [
+    {
+      "file": "salesprogram_e00543-2.pdf",
+      "title": "added from the corpus directory; the address was recovered later and serves these exact bytes",
+      "url": "https://www.sulzer.com/en/-/media/files/products/common/salesprogram_e00543.pdf",
+      "retrieved_at": "2026-10-21",
+      "pages": 76,
+      "doc_type": "other",
+      "category": "pumps",
+      "subtype": "",
+      "sha256": "06ef283f83f907dee495e3012a48992b55bc2f3937a6d37b663827ccd49ed0a6"
+    }
+  ],
+  "category": "pumps"
+}

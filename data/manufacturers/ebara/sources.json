@@ -1,0 +1,51 @@
+{
+  "manufacturer": "ebara",
+  "display_name": "Ebara",
+  "documents": [
+    {
+      "file": "Catalogue-Ebara-FSA.pdf",
+      "title": "FSA split-case pump",
+      "url": "https://ebarapumps.vn/wp-content/uploads/2017/11/Catalogue-Ebara-FSA.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 28,
+      "doc_type": "catalogue",
+      "category": "pumps",
+      "subtype": "FSA split-case pump",
+      "sha256": "0e526e6887d43242354352af40533c485cf1ff49099c0ccc4c33890b79dc034a"
+    },
+    {
+      "file": "EBARA-THAILAND-LIMITED_General-Product-Catalogue-Sep-30-2024Edit-HO-address.pdf",
+      "title": "General pump range",
+      "url": "https://www.ebara.co.th/wp-content/uploads/2024/10/EBARA-THAILAND-LIMITED_General-Product-Catalogue-Sep-30-2024Edit-HO-address.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 32,
+      "doc_type": "catalogue",
+      "category": "pumps",
+      "subtype": "General pump range",
+      "sha256": "7416b9f1653dd53a9a163d6f50d15e8c0a09465c14440c942b2665283a6b2ebd"
+    },
+    {
+      "file": "EBARA-CATALOGUE.pdf",
+      "title": "Centrifugal and submersible pumps",
+      "url": "https://www.makoswater.com/wp-content/uploads/2021/04/EBARA-CATALOGUE.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 32,
+      "doc_type": "catalogue",
+      "category": "pumps",
+      "subtype": "Centrifugal and submersible pumps",
+      "sha256": "e05f82eca4a9ffde6dc6c0f576e666772af9ca17fe5f8644f17b2b44af32e620"
+    },
+    {
+      "file": "DLU_tech.pdf",
+      "title": "DLU submersible sewage pump",
+      "url": "https://www.pumpsebara.com/wp-content/uploads/DLU_tech.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 20,
+      "doc_type": "datasheet",
+      "category": "pumps",
+      "subtype": "DLU submersible sewage pump",
+      "sha256": "5a8dd15be1372fe2441fd633d73bf1d3e1446fd809a5b8b592ff7874d7158ca9"
+    }
+  ],
+  "category": "pumps"
+}

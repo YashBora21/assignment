@@ -1,0 +1,40 @@
+{
+  "manufacturer": "duncan-engineering",
+  "display_name": "Duncan Engineering",
+  "documents": [
+    {
+      "file": "RACK-AND-PINION-ACTUATOR.pdf",
+      "title": "Rack-and-pinion pneumatic rotary actuator",
+      "url": "https://duncanengg.com/writable/uploads/documents/RACK-AND-PINION-ACTUATOR.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 7,
+      "doc_type": "datasheet",
+      "category": "valves",
+      "subtype": "Rack-and-pinion pneumatic rotary actuator",
+      "sha256": "e2350ae0c2380119bcfe6c19775e6aebe00978f504018e372e918fa534ee8e25"
+    },
+    {
+      "file": "2025_10_17_11_19_29_knife_edge_valve_duncan_-1_2025-10-17-11-19-30_ce576ca26cae87f64e026dc5a255d00d.pdf",
+      "title": "Knife-edge / slurry valve",
+      "url": "https://mkp.gem.gov.in/catalog_data/catalog_support_document/60/36/714/CatalogAttrs/SpecificationDocument/2025/10/17/2025_10_17_11_19_29_knife_edge_valve_duncan_-1_2025-10-17-11-19-30_ce576ca26cae87f64e026dc5a255d00d.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 7,
+      "doc_type": "datasheet",
+      "category": "valves",
+      "subtype": "Knife-edge / slurry valve",
+      "sha256": "408dd9c96e072053a5e58813c3461212c6bbcb1b0dcaf36f546fd3da7df5ca86"
+    },
+    {
+      "file": "2026_05_05_10_48_40_pneumatics_catalogue_duncan_11__2026-05-05-10-48-43_8a0ec9fa4f0bf622d555bc158e1809ba.pdf",
+      "title": "Valves, actuators and pneumatics range",
+      "url": "https://mkp.gem.gov.in/catalog_data/catalog_support_document/60/36/714/CatalogAttrs/SpecificationDocument/2026/5/5/2026_05_05_10_48_40_pneumatics_catalogue_duncan_11__2026-05-05-10-48-43_8a0ec9fa4f0bf622d555bc158e1809ba.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 8,
+      "doc_type": "catalogue",
+      "category": "valves",
+      "subtype": "Valves, actuators and pneumatics range",
+      "sha256": "32f9d1a1cd9f711818be425f279719e66c688989debf0c5fdb98f931dd96b5d8"
+    }
+  ],
+  "category": "valves"
+}

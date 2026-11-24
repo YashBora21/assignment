@@ -1,0 +1,73 @@
+{
+  "manufacturer": "bray",
+  "display_name": "Bray",
+  "documents": [
+    {
+      "file": "en-bro-2101-ball-valve-overview-web.pdf",
+      "title": "Ball valve range",
+      "url": "https://www.bray.com/docs/default-source/brochures/product-brochures/en-bro-2101-ball-valve-overview-web.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 8,
+      "doc_type": "catalogue",
+      "category": "valves",
+      "subtype": "Ball valve range",
+      "sha256": "93e52d837c13e2d57eda8c6e8fdef6cc6546562148a0891ba49bdd42730f13e7"
+    },
+    {
+      "file": "en_b-1050_rsb_valves_web.pdf",
+      "title": "Series 1050 resilient seated butterfly valves",
+      "url": "https://www.bray.com/docs/default-source/brochures/product-brochures/en_b-1050_rsb_valves_web.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 24,
+      "doc_type": "catalogue",
+      "category": "valves",
+      "subtype": "Series 1050 resilient seated butterfly valves",
+      "sha256": "b914f2b2959346748fa950021f3723ce0478b8abcb240fac73912a26e39c35a4"
+    },
+    {
+      "file": "en_ovw_rcv_20210621_01-min.pdf",
+      "title": "Rotary control valves",
+      "url": "https://www.bray.com/docs/default-source/brochures/product-brochures/en_ovw_rcv_20210621_01-min.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 19,
+      "doc_type": "catalogue",
+      "category": "valves",
+      "subtype": "Rotary control valves",
+      "sha256": "8eaeb53fc43cc3866cb144f3fd5ab385e9ed02618971a5f71e2e0264898dc53e"
+    },
+    {
+      "file": "control_valve_selection_guide_v2_2024.pdf",
+      "title": "Control valves",
+      "url": "https://www.bray.com/docs/default-source/manuals-guides/selection-guides/control_valve_selection_guide_v2_2024.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 64,
+      "doc_type": "datasheet",
+      "category": "valves",
+      "subtype": "Control valves",
+      "sha256": "c3b02c2a3e658c08f3fad5bd5da9b3054130ebdee341bda84fb593cee6813f89"
+    },
+    {
+      "file": "tm-1050_resilient.pdf",
+      "title": "Series 1050 resilient seated butterfly valves",
+      "url": "https://www.bray.com/docs/default-source/manuals-guides/technical-manuals/tm-1050_resilient.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 26,
+      "doc_type": "datasheet",
+      "category": "valves",
+      "subtype": "Series 1050 resilient seated butterfly valves",
+      "sha256": "b5fc8b0a6fff8257b7a9d9e5126ad413cdf46594dc3511f7387d7e20427d3b27"
+    },
+    {
+      "file": "en_gbl_tsm_s4x.pdf",
+      "title": "Series S4x high performance butterfly valves",
+      "url": "https://www.bray.com/docs/default-source/manuals-guides/technical-sales-guide/en_gbl_tsm_s4x.pdf",
+      "retrieved_at": "2026-11-01",
+      "pages": 67,
+      "doc_type": "datasheet",
+      "category": "valves",
+      "subtype": "Series S4x high performance butterfly valves",
+      "sha256": "c3cd57dabd0243996df9c9813f4cac104895340224e2e6360e9cc851bcf52e6d"
+    }
+  ],
+  "category": "valves"
+}
